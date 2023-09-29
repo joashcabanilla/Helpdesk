@@ -16,6 +16,7 @@ use App\Http\Controllers\GuestController;
 //Landing Page Route
 Route::middleware(['guest'])->group(
     function (){
-        Route::get('/', [GuestController::class, 'index'])->name('landing.login');
+        Route::get('/', [GuestController::class, 'Login'])->name('landing.login');
+        Route::get('/register', [GuestController::class, 'Register'])->name('landing.register');
     }
 );

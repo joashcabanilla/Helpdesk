@@ -13,7 +13,6 @@
         <link rel="icon" href="{{asset('image/logo.png')}}" type="image/png">
 
         <!-- library or Plugins -->
-
         <!-- Jquery -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
@@ -31,23 +30,7 @@
 
         <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/fc-4.2.2/fh-3.3.2/kt-2.9.0/r-2.4.1/sc-2.1.1/datatables.min.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.31/dist/sweetalert2.all.min.js"></script>
-        
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.31/dist/sweetalert2.min.css">
-
-         <!-- Font Awesome -->
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
-         <!-- Google Fonts Roboto -->
-         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-
-         <!-- MDB -->
-         <link rel="stylesheet" href="{{asset('MDB/css/mdb.min.css')}}" />
-
-        <!-- Custom styles -->
-        <link rel="stylesheet" href="{{asset('MDB/css/admin.css')}}" />
+        <link rel="stylesheet" href="{{asset('css/app.css')}}" />
     </head>
 
     <body>

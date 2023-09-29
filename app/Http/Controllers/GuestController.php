@@ -15,8 +15,12 @@ class GuestController extends Controller
         $this->data = array();
     }
 
-    public function index(){
+    public function Login(){
         return view('Components.Login', $this->data);
+    }
+
+    public function Register(){
+        return view('Components.Register', $this->data);
     }
 
 }

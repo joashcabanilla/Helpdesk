@@ -22,22 +22,6 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if(Auth::user()->user_type == 'superadmin'){
-                    return redirect('admin');
-                }
-
-                if(Auth::user()->user_type == 'admin'){
-                    return redirect('admin');
-                }
-
-                if(Auth::user()->user_type == 'staff'){
-                    return redirect('admin');
-                }
-
-                if(Auth::user()->user_type == 'guest'){
-                    return redirect('guest');
-                }
-                
             }
         }
 

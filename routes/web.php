@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GuestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,3 +12,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//Landing Page Route
+Route::middleware(['guest'])->group(
+    function (){
+        Route::get('/', [GuestController::class, 'index'])->name('landing.login');
+    }
+);

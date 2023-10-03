@@ -17,10 +17,33 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $table = 'users';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'Id';
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-    
+    protected $fillable = [
+        'UserType',
+        'Prefix',
+        'FirstName',
+        'MiddleName',
+        'LastName',
+        'Suffix',
+        'Profile',
+        'Branch',
+        'Department',
+        'MemberId',
+        'EmployeeId',
+        'Board',
+        'FacebookId',
+        'GoogleId',
+        'Attemp',
+        'email',
+        'email_verified_at',
+        'Verification',
+        'username',
+        'password',
+        'LastLogin',
+        'LastIp',
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -43,10 +43,10 @@
         </form>
   
         <div class="social-auth-links text-center mt-2 mb-3">
-          <a href="" id="facebookSignIn" class="btn btn-block btn-success font-weight-bold">
+          <a href="" id="facebookAuth" class="btn btn-block btn-success font-weight-bold">
             <i class="fab fa-facebook mr-2"></i> Sign in with Facebook
           </a>
-          <a href="" id="googleSignIn" class="btn btn-block btn-success font-weight-bold">
+          <a href="" id="googleAuth" class="btn btn-block btn-success font-weight-bold">
             <i class="fab fa-google-plus mr-2"></i> Sign in with Google
           </a>
         </div>

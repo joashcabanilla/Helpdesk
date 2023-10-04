@@ -91,4 +91,5 @@
     
     {{--script for page --}}
     <script src="{{asset('js/Login.js')}}"></script>
+    <script type="module" src="{{asset('js/FirebaseAuth.js')}}"></script>
 </html>

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Laravel\Socialite\Facades\Socialite;
 
 //Models
 use App\Models\SettingModel;
-use Exception;
 
 class GuestController extends Controller
 {

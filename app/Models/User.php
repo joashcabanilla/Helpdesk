@@ -33,14 +33,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'MemberId',
         'EmployeeId',
         'Board',
-        'FacebookId',
-        'GoogleId',
         'Attemp',
         'email',
         'email_verified_at',
         'Verification',
         'username',
         'password',
+        'Status',
         'LastLogin',
         'LastIp',
     ];
@@ -61,4 +60,25 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    function CreateUser($param, $userType){
+        $data = (object) $param;
+        return $this->create([
+            "UserType" => $userType,
+            "email" => $data->email,
+            "Status" => "active",
+        ]);
+    }
+
+    function CheckEmailExist($email){
+        return $this->where('email',$email)->first();
+    }
+
+    function UpdateUserLog($id,$lastLogin,$lastIp){
+        return $this->find($id)->update([
+            "LastLogin" => $lastLogin,
+            "LastIp" => $lastIp,
+            "Attemp" => 0
+        ]);
+    }
 }

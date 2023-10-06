@@ -24,6 +24,9 @@
 
         <!-- Theme style -->
         <link rel="stylesheet" href="{{asset('adminlte/dist/css/adminlte.min.css')}}">
+        
+        <!-- Sweetalert style -->
+        <link rel="stylesheet" href="{{asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
 
         <!-- library or Plugins -->
         <!-- Jquery -->
@@ -64,6 +67,8 @@
      <script src="{{asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
      <!-- AdminLTE App -->
      <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
+     <!-- SweetAlert App -->
+     <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 
     {{--script for Loading plugin --}}
     <script>
@@ -76,7 +81,7 @@
         $.LoadingOverlaySetup({
           background: "rgba(255, 255, 255, 0.3)",
           fontawesome : "fa fa-spinner fa-spin",
-          fontawesomeColor: "#FFD700",
+          fontawesomeColor: "#343a40",
           image: "",
         });
   

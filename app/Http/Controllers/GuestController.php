@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 //Models
 use App\Models\SettingModel;
@@ -19,17 +18,11 @@ class GuestController extends Controller
         $this->data['terms'] = $this->settingModel->getDescription('terms');
     }
 
-    //controller functions for viewing page.
-    public function Login(){
+    function Login(){
         return view('Components.Login', $this->data);
     }
 
-    public function Register(){
+    function Register(){
         return view('Components.Register', $this->data);
-    }
-
-    //controller functions for process.
-    public function SignUp(Request $request){
-        
     }
 }

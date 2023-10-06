@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBMAVCgL730O_-t7DFthLsn7udTLZdEHDA",
@@ -14,24 +14,53 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const googleProvider = new GoogleAuthProvider();
-const facebookProvider = new FacebookAuthProvider();
 
 $("#googleAuth").click(e => {
     e.preventDefault();
     signInWithPopup(auth, googleProvider).
     then((result) => {
-        console.log(result);
+        let email = result.user.email;
+        $.ajax({
+            type:"POST",
+            url:"api/user/gmail-signup",
+            data: {
+                email: email
+            },
+            success: (res) => {
+                if(res.message == "success"){
+                    $.ajax({
+                        type:"POST",
+                        url:"login",
+                        data:{
+                            id:res.id
+                        },
+                        success: () => {
+                            location.reload();
+                        }
+                    });
+                }
+                else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: res.message,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then((result) => {
+                        location.reload();
+                    });
+                }
+            }
+        });
     }).catch((error) => {
-
-    });
-});
-
-$("#facebookAuth").click(e => {
-    e.preventDefault();
-    signInWithPopup(auth, facebookProvider).
-    then((result) => {
-        console.log(result);
-    }).catch((error) => {
-        console.log(error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Gmail Authentication Error',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then((result) => {
+            location.reload();
+        });
     });
 });

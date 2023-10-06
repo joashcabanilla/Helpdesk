@@ -13,7 +13,7 @@
   
         <form id="loginForm" method="POST">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Username" id="username" name="username" autocomplete="false" required>
+            <input type="text" class="form-control" placeholder="Username Or Email" id="username" name="username" autocomplete="false" required>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -43,9 +43,6 @@
         </form>
   
         <div class="social-auth-links text-center mt-2 mb-3">
-          <a href="" id="facebookAuth" class="btn btn-block btn-success font-weight-bold">
-            <i class="fab fa-facebook mr-2"></i> Sign in with Facebook
-          </a>
           <a href="" id="googleAuth" class="btn btn-block btn-success font-weight-bold">
             <i class="fab fa-google-plus mr-2"></i> Sign in with Google
           </a>

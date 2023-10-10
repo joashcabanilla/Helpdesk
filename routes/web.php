@@ -19,6 +19,8 @@ Route::middleware(['guest'])->group(
     function (){
         Route::get('/', [GuestController::class, 'Login'])->name('landing.login');
         Route::get('/register', [GuestController::class, 'Register'])->name('landing.register');
+        Route::post('postlogin', [GuestController::class, 'PostLogin']);
+        Route::post('postlogout', [GuestController::class, 'PostLogout']);
     }
 );
 
@@ -39,7 +41,3 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         });
     }
 );
-
-//Authentication Route
-Route::post('login', [AuthController::class, 'Login']);
-Route::post('logout', [AuthController::class, 'Logout']);

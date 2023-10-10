@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 //Models
 use App\Models\SettingModel;
@@ -24,5 +26,17 @@ class GuestController extends Controller
 
     function Register(){
         return view('Components.Register', $this->data);
+    }
+
+    function PostLogin(Request $request){
+        Auth::loginUsingId($request->id,true);
+        return response('login',200);
+    }
+
+    function PostLogout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return response('logout',200); 
     }
 }

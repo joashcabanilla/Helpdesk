@@ -15,6 +15,10 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const googleProvider = new GoogleAuthProvider();
 
+googleProvider.setCustomParameters({
+    prompt: 'select_account',
+});
+
 $("#googleAuth").click(e => {
     e.preventDefault();
     signInWithPopup(auth, googleProvider).
@@ -22,21 +26,28 @@ $("#googleAuth").click(e => {
         let email = result.user.email;
         $.ajax({
             type:"POST",
-            url:"api/user/gmail-signup",
+            url:"api/v1/register",
             data: {
-                email: email
+                email: email,
+                action: 'gmail'
             },
             success: (res) => {
                 if(res.message == "success"){
+                    // $.ajax({
+                    //     type:"POST",
+                    //     url:"postlogin",
+                    //     data:{
+                    //         id:res.id
+                    //     },
+                    //     success: () => {
+                    //         localStorage.setItem("api_token","token");
+                    //         location.reload();
+                    //     }
+                    // });
                     $.ajax({
-                        type:"POST",
-                        url:"login",
-                        data:{
-                            id:res.id
-                        },
-                        success: () => {
-                            location.reload();
-                        }
+                        type:"GET",
+                        url:"api/v2/try",
+                        headers: {"Authorization": "Bearer " + res.token}
                     });
                 }
                 else{

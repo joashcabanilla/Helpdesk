@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\UserController;
-
+use App\Http\Controllers\API\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,9 +13,20 @@ use App\Http\Controllers\API\UserController;
 |
 */
 
-//User Route
-Route::prefix('user')->group(
+//User Public Route
+Route::prefix('v1')->group(
     function (){
-        Route::post('/gmail-signup', [UserController::class, 'GmailSignUp']);
+        Route::post('/register', [AuthController::class, 'Register']);
+        Route::post('/login', [AuthController::class, 'Login']);
+        Route::post('/logout', [AuthController::class, 'Logout']);
+    }
+);
+
+//User Protected Route
+Route::prefix('v2')->middleware(['auth:sanctum','abilities:user'])->group(
+    function (){
+        Route::get('/try', function(){
+            return response('try',200);
+        });
     }
 );

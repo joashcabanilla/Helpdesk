@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -71,6 +72,17 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
+    function CreateUserVerify($param, $code, $userType){
+        return $this->create([
+            "UserType" => $userType,
+            "email" => $param->email,
+            "username" => $param->username,
+            "password" => Hash::make($param->password),
+            "Status" => "active",
+            "Verification" => $code
+        ]);
+    }
+    
     function CheckEmailExist($email){
         return $this->where('email',$email)->first();
     }
@@ -94,5 +106,12 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         
        return $user->createToken($user->email,[$access])->plainTextToken;
+    }
+
+    function updateVerificationCode($user, $code, $verifiedDate = ""){
+        return $user->update([
+            "Verification" => $code,
+            "email_verified_at" => $verifiedDate == "" ? null : $verifiedDate
+        ]);
     }
 }

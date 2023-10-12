@@ -28,6 +28,9 @@
         <!-- Sweetalert style -->
         <link rel="stylesheet" href="{{asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
 
+        <!-- Toastr -->
+        <link rel="stylesheet" href="{{asset('adminlte/plugins/toastr/toastr.min.css')}}">
+
         <!-- library or Plugins -->
         <!-- Jquery -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -69,7 +72,8 @@
      <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
      <!-- SweetAlert App -->
      <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
-
+     <!-- Toastr -->
+     <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
     {{--script for Loading plugin --}}
     <script>
         $.ajaxSetup({
@@ -95,6 +99,7 @@
     </script>
     
     {{--script for page --}}
+    <script src="{{asset('js/Public.js')}}"></script>
     <script src="{{asset('js/Login.js')}}"></script>
     <script type="module" src="{{asset('js/FirebaseAuth.js')}}"></script>
 </html>

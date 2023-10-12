@@ -33,21 +33,16 @@ $("#googleAuth").click(e => {
             },
             success: (res) => {
                 if(res.message == "success"){
-                    // $.ajax({
-                    //     type:"POST",
-                    //     url:"postlogin",
-                    //     data:{
-                    //         id:res.id
-                    //     },
-                    //     success: () => {
-                    //         localStorage.setItem("api_token","token");
-                    //         location.reload();
-                    //     }
-                    // });
                     $.ajax({
-                        type:"GET",
-                        url:"api/v2/try",
-                        headers: {"Authorization": "Bearer " + res.token}
+                        type:"POST",
+                        url:"postlogin",
+                        data:{
+                            id:res.id
+                        },
+                        success: () => {
+                            localStorage.setItem("api_token","token");
+                            location.reload();
+                        }
                     });
                 }
                 else{
@@ -56,7 +51,8 @@ $("#googleAuth").click(e => {
                         title: 'Oops...',
                         text: res.message,
                         allowOutsideClick: false,
-                        allowEscapeKey: false
+                        allowEscapeKey: false,
+                        confirmButtonColor: "#28a745"
                     }).then((result) => {
                         location.reload();
                     });
@@ -69,7 +65,8 @@ $("#googleAuth").click(e => {
             title: 'Oops...',
             text: 'Gmail Authentication Error',
             allowOutsideClick: false,
-            allowEscapeKey: false
+            allowEscapeKey: false,
+            confirmButtonColor: "#28a745"
         }).then((result) => {
             location.reload();
         });

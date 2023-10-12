@@ -18,7 +18,7 @@
                 <span class="fas fa-envelope"></span>
               </div>
             </div>
-            <div class="invalid-feedback font-weight-bold">
+            <div class="invalid-feedback font-weight-bold error-email">
                 error email
             </div>
           </div>
@@ -30,7 +30,7 @@
                 <span class="fas fa-user"></span>
               </div>
             </div>
-            <div class="invalid-feedback font-weight-bold">
+            <div class="invalid-feedback font-weight-bold error-username">
                 error username
             </div>
           </div>
@@ -42,7 +42,7 @@
                 <span class="fas fa-lock"></span>
               </div>
             </div>
-            <div class="invalid-feedback font-weight-bold">
+            <div class="invalid-feedback font-weight-bold error-password">
                 error password
             </div>
           </div>
@@ -53,7 +53,7 @@
                 <span class="fas fa-lock"></span>
               </div>
             </div>
-            <div class="invalid-feedback font-weight-bold">
+            <div class="invalid-feedback font-weight-bold error-confirmpass">
                 error confirm password
             </div>
           </div>

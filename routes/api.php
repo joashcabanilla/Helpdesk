@@ -19,14 +19,19 @@ Route::prefix('v1')->group(
         Route::post('/register', [AuthController::class, 'Register']);
         Route::post('/login', [AuthController::class, 'Login']);
         Route::post('/logout', [AuthController::class, 'Logout']);
+        Route::post('/email/resendOTP', [AuthController::class, 'ResendOTP']);
+        Route::post('/email/verify', [AuthController::class, 'VerifyOTP']);
     }
 );
 
 //User Protected Route
 Route::prefix('v2')->middleware(['auth:sanctum','abilities:user'])->group(
     function (){
-        Route::get('/try', function(){
-            return response('try',200);
-        });
+    }
+);
+
+//Admin Protected Route
+Route::prefix('v3')->middleware(['auth:sanctum','abilities:admin'])->group(
+    function (){
     }
 );

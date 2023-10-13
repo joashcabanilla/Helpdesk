@@ -13,7 +13,7 @@
   
         <form id="loginForm" method="POST">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Username Or Email" id="username" name="username" autocomplete="false" required>
+            <input type="text" class="form-control" placeholder="Username Or Email" id="username" name="username" autocomplete="false" required autofocus>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -29,13 +29,13 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-8">
+            <div class="col-lg-8 col-md-8 col-sm-12">
                 <p class="mb-1">
                     <a href="" class="font-weight-bold" id="forgotPassword">Forgot password?</a>
                 </p>
             </div>
             <!-- /.col -->
-            <div class="col-4">
+            <div class="col-lg-4 col-md-4 col-sm-12">
               <button type="submit" class="btn btn-success btn-block font-weight-bold">Sign In</button>
             </div>
             <!-- /.col -->
@@ -56,4 +56,5 @@
     </div>
     <!-- /.card -->
   </div>
+  @include('Components.UpdateLoginAccount')
 @endsection

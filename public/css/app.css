@@ -1,6 +1,17 @@
 .hide-element {
     display: none;
 }
+
+label,
+input,
+button,
+a,
+p{
+    font-size: 1.1rem !important;
+}
+.modal-closeIcon{
+    font-size: 2rem !important;
+} 
 @media (min-width: 576px) {}
 
 @media (min-width: 768px) {}

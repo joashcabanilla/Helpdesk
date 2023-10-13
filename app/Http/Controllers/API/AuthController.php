@@ -122,7 +122,7 @@ class AuthController extends Controller
                 $this->userModel->updateVerificationCode($user,0,Carbon::now());
                 $response = response()->json($result, 200);
             }else{
-                $result["message"] = "Invalid OTP.";
+                $result["message"] = "Incorrect OTP.";
                 $response = response()->json($result, 202);
             }
 
@@ -131,6 +131,50 @@ class AuthController extends Controller
             $response = response()->json($result, 202);
         }
         
+        return $response;
+    }
+
+    function SearchEmail(Request $request){
+        $result = [
+            "message" => "The email has been successfully found.", 
+        ];
+
+        $user = $this->userModel->CheckEmailExist($request->email);
+
+        if($user){
+            $response = response()->json($result, 200);
+        }else{
+            $result["message"] = "Email not found.";
+            $response = response()->json($result, 202);
+        }
+
+        return $response;
+    }
+
+    function UpdateLoginCredentials(Request $request){
+        $result = [
+            "message" => "Successfully updated.", 
+        ];
+
+        $rules = [
+            'username' => ['required', 'string', 'min:5','unique:users'],
+            'password' => ['required','string', 'min:8', 'confirmed'],
+        ];
+
+        $validator = Validator::make($request->all(),$rules);
+        if($validator->fails()){
+            $result["message"] = "Invalid Data.";
+            $result["error"] = $validator->errors();
+            $response = response()->json($result, 202);
+        }else{
+            $user = $this->userModel->updateLoginCredentials($request);
+            if($user){
+                $response = response()->json($result, 200);
+            }else{
+                $result["message"] = "SQL Database Error";
+                $response = response()->json($result, 500);
+            }
+        }
         return $response;
     }
 }

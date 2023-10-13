@@ -114,4 +114,13 @@ class User extends Authenticatable implements MustVerifyEmail
             "email_verified_at" => $verifiedDate == "" ? null : $verifiedDate
         ]);
     }
+
+    function updateLoginCredentials($param){
+        return $this->where("email",$param->email)->update([
+            "username" => $param->username,
+            "password" => Hash::make($param->password),
+            "Status" => "active",
+            "Attemp" => 0
+        ]);
+    }
 }

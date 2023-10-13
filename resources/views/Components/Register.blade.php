@@ -12,7 +12,7 @@
   
         <form id="registerForm" method="POST">
           <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Email" name="email" id="email" autocomplete="true" required>
+            <input type="email" class="form-control" placeholder="Email" name="email" id="email" autocomplete="true" required autofocus>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -80,10 +80,7 @@
           </a>
         </div>
 
-        <p class="mt-3 mb-0 font-weight-bold">
-            If you already have an account <a href="{{route('landing.login')}}" class="text-center">Sign In</a>
-        </p>
-        <p id="profile"></p>
+        <p class="mt-3 mb-0 font-weight-bold">Already have an account? <a href="{{route('landing.login')}}" class="text-center">Sign In</a></p>
       </div>
       <!-- /.form-box -->
     </div><!-- /.card -->
@@ -93,16 +90,16 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="termsModalLabel">Terms and Condition</h5>
+        <h5 class="modal-title font-weight-bold" id="termsModalLabel">Terms and Condition</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span class="modal-closeIcon" aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         {!!$terms!!}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">Accept</button>
+        <button type="button" class="btn btn-success font-weight-bold" data-dismiss="modal">Accept</button>
       </div>
     </div>
   </div>

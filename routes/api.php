@@ -21,6 +21,8 @@ Route::prefix('v1')->group(
         Route::post('/logout', [AuthController::class, 'Logout']);
         Route::post('/email/resendOTP', [AuthController::class, 'ResendOTP']);
         Route::post('/email/verify', [AuthController::class, 'VerifyOTP']);
+        Route::post('/email/search', [AuthController::class, 'SearchEmail']);
+        Route::post('/email/update/credentials', [AuthController::class, 'UpdateLoginCredentials']);
     }
 );
 

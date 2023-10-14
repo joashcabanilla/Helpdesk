@@ -37,9 +37,14 @@ class AuthController extends Controller
     private function GmailSignUp($request){
         $user = $this->userModel->CheckEmailExist($request->email);
         if($user){
-            $this->userModel->UpdateUserLog($user->Id,Carbon::now(),$request->ip());
-            $token = $this->userModel->generateToken($user);
-            return response()->json(["id" => $user->Id, "token" => $token, "message" => "success"],200);
+            if($user->Status != "locked" && $user->Status != "deactivated"){
+                $this->userModel->UpdateUserLog($user->Id,Carbon::now(),$request->ip());
+                $token = $this->userModel->generateToken($user);
+                return response()->json(["id" => $user->Id, "token" => $token, "message" => "success"],200);
+            }else{
+                $result["message"] = $user->Status == "locked" ? "Your account is locked due to multiple incorrect sign-in attempts." : "Your account has been deactivated. Please contact our admin for further assistance.";
+                return response()->json($result,202);
+            }
         }else{    
             $result = $this->userModel->CreateUser($request->all(),$this->userTypeModel->GetNewUserType()->TypeId);
             if($result){
@@ -143,7 +148,12 @@ class AuthController extends Controller
         $user = $this->userModel->CheckEmailExist($request->email);
 
         if($user){
-            $response = response()->json($result, 200);
+            if($user->Status != "deactivated"){
+                $response = response()->json($result, 200);
+            }else{
+                $result["message"] = "Your account has been deactivated. Please contact our admin for further assistance.";
+                return response()->json($result,202); 
+            }
         }else{
             $result["message"] = "Email not found.";
             $response = response()->json($result, 202);

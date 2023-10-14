@@ -31,7 +31,7 @@ $("#googleAuth").click(e => {
                 email: email,
                 action: 'gmail'
             },
-            success: (res) => {
+            success: (res, textStatus, xhr) => {
                 if(res.message == "success"){
                     $.ajax({
                         type:"POST",
@@ -46,16 +46,21 @@ $("#googleAuth").click(e => {
                     });
                 }
                 else{
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: res.message,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        confirmButtonColor: "#28a745"
-                    }).then((result) => {
-                        location.reload();
-                    });
+                    if(xhr.status == 202){
+                        notifToast($(e.target).text(), res.message,"error");
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: res.message,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            confirmButtonColor: "#28a745"
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    }
+                    
                 }
             }
         });

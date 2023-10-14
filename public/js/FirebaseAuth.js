@@ -40,7 +40,7 @@ $("#googleAuth").click(e => {
                             id:res.id
                         },
                         success: () => {
-                            localStorage.setItem("api_token","token");
+                            localStorage.setItem("api_token",res.token);
                             location.reload();
                         }
                     });

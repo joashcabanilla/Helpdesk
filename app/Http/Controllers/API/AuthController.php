@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 
 //Models
@@ -175,6 +176,49 @@ class AuthController extends Controller
                 $response = response()->json($result, 500);
             }
         }
+        return $response;
+    }
+
+    function Login(Request $request){
+        $result = [
+            "message" => "Successfully login.", 
+            "username" => "pass",
+            "password" => "pass"
+            
+        ];
+
+        $user = $this->userModel->where("email",$request->username)->orWhere("username",$request->username)->first();
+
+        if($user){
+            if($user->Status != "locked" && $user->Status != "deactivated"){
+                if(Hash::check($request->password,$user->password)){
+                    $token = $this->userModel->generateToken($user);
+                    $result["id"] = $user->Id; 
+                    $result["token"] = $token;
+                    $this->userModel->UpdateUserLog($user->Id,Carbon::now(),$request->ip());
+                    $response = response()->json($result, 200);
+                }else{
+                    if($user->Attemp == 4){
+                        $user->update(["Status" => "locked"]);
+                        $result["message"] = "Your account is locked due to multiple incorrect sign-in attempts.";
+                    }else{
+                        $user->update(["Attemp" => $user->Attemp + 1]);
+                        $result["message"] = "Incorrect Password.";
+                    }
+                    $result["password"] = "failed";
+                    $response = response()->json($result, 202);
+                }
+            }else{
+                $result["password"] = "failed";
+                $result["message"] = $user->Status == "locked" ? "Your account is locked due to multiple incorrect sign-in attempts." : "Your account has been deactivated. Please contact our admin for further assistance.";
+                $response = response()->json($result, 202);
+            }
+        }else{
+            $result["message"] = "Incorrect Username.";
+            $result["username"] = "failed";
+            $response = response()->json($result, 202);
+        }
+
         return $response;
     }
 }

@@ -106,3 +106,50 @@ logincredentialFormkeys.keys.forEach((value,index) => {
         $(`${logincredentialFormkeys.class[index]}`).css("display","none");
     });
 });
+
+$("#showPassword").change((e) => {
+    if($(e.target).is(":checked")){
+        $("#password").attr("type", "text");
+    }else{
+        $("#password").attr("type", "password");
+    }
+});
+
+$("#loginForm").submit((e) => {
+    e.preventDefault();
+    let data = $(e.target).serializeArray();
+    $.ajax({
+        type:"POST",
+        url:"api/v1/login",
+        data: data,
+        success:(res, textStatus, xhr) => { 
+            let title = "Sign In";
+            if(xhr.status == 200){
+                notifToast(title, res.message,"success");
+                $.ajax({
+                    type:"POST",
+                    url:"postlogin",
+                    data:{
+                        id:res.id
+                    },
+                    success: () => {
+                        localStorage.setItem("api_token",res.token);
+                        location.reload();
+                    }
+                });
+            }else{
+                notifToast(title, res.message,"error");
+                if(res.username != "pass"){
+                    $("#username").val("");
+                    $("#password").val("");
+                    $("#username").focus();
+                }
+
+                if(res.password != "pass"){
+                    $("#password").val("");
+                    $("#password").focus();
+                }
+            }
+        }
+    });
+});

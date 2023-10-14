@@ -13,18 +13,26 @@
   
         <form id="loginForm" method="POST">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Username Or Email" id="username" name="username" autocomplete="false" required autofocus>
+            <input type="text" class="form-control" placeholder="Username / Email" id="username" name="username" autocomplete="false" required autofocus>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
               </div>
             </div>
           </div>
-          <div class="input-group mb-3">
+          <div class="input-group mb-1">
             <input type="password" class="form-control" placeholder="Password" id="password" name="password" autocomplete="false" required>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12">
+              <div class="icheck-success">
+                <input type="checkbox" id="showPassword" name="showpassword">
+                <label for="showPassword">Show password</label>
               </div>
             </div>
           </div>

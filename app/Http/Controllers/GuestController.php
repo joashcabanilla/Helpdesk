@@ -33,10 +33,4 @@ class GuestController extends Controller
         return response('login',200);
     }
 
-    function PostLogout(Request $request){
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return response('logout',200); 
-    }
 }

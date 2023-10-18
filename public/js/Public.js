@@ -198,3 +198,41 @@ const findEmail = () => {
         return email;
     });
 }
+
+$(document).ready((e) => {
+    const mobileMediaQuery = window.matchMedia("(max-width: 576px)");
+
+    function handleMobileMediaChange(e) {
+        if (e.matches) {
+            $("#navSearchTicketForm").addClass("hide-element");
+        }else{
+            $("#navSearchTicketForm").removeClass("hide-element");
+        }
+    }
+    mobileMediaQuery.addListener(handleMobileMediaChange);
+    handleMobileMediaChange(mobileMediaQuery);
+
+    let sidebar = localStorage.getItem("sidebar");
+    if(sidebar == "not-show"){
+        $(".sidebar-logo").removeClass('d-flex justify-content-center align-items-center m-3').addClass('brand-link');
+        $(".sidebar-logo-title").removeClass('d-none');
+        $("body").addClass("sidebar-collapse");
+    }
+    else{
+        $(".sidebar-logo").addClass('d-flex justify-content-center align-items-center m-3').removeClass('brand-link');
+        $(".sidebar-logo-title").addClass('d-none');
+        $("body").removeClass("sidebar-collapse"); 
+    }
+});
+
+$("#logout").click((e) => {
+    e.preventDefault();
+    $.ajax({
+        type:"POST",
+        url:"postlogout",
+        success: (res) => {
+            localStorage.clear();
+            location.reload();
+        }
+    });
+});

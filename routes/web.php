@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuestController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OpenController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,24 +22,33 @@ Route::middleware(['guest'])->group(
         Route::get('/', [GuestController::class, 'Login'])->name('landing.login');
         Route::get('/register', [GuestController::class, 'Register'])->name('landing.register');
         Route::post('postlogin', [GuestController::class, 'PostLogin']);
-        Route::post('postlogout', [GuestController::class, 'PostLogout']);
     }
 );
 
 //User Page Route
 Route::prefix('user')->middleware(['auth','user'])->group(
     function (){
-        Route::get('/',function(){
-            return dd("user");
-        });
+        Route::get('/', [GuestController::class, 'UserPage'])->name('user.index');
     }
 );
 
 //Admin Page Route
 Route::prefix('admin')->middleware(['auth','admin'])->group(
     function (){
-        Route::get('/',function(){
-            return dd("admin");
-        });
+        Route::get('/', [AdminController::class, 'AdminPage'])->name('admin.index');
+        Route::get('/ticketboard', [AdminController::class, 'TicketBoard'])->name('admin.ticketboard');
+        Route::get('/tickethistory', [AdminController::class, 'TicketHistory'])->name('admin.tickethistory');
+        Route::get('/department', [AdminController::class, 'Department'])->name('admin.department');
+        Route::get('/branch', [AdminController::class, 'Branch'])->name('admin.branch');
+        Route::get('/ticket', [AdminController::class, 'Ticket'])->name('admin.ticket');
+        Route::get('/admin', [AdminController::class, 'Admin'])->name('admin.admin');
+        Route::get('/employee', [AdminController::class, 'Employee'])->name('admin.employee');
+        Route::get('/member', [AdminController::class, 'Member'])->name('admin.member');
+        Route::get('/account', [AdminController::class, 'ManageAccount'])->name('admin.account');
+        Route::get('/report', [AdminController::class, 'Report'])->name('admin.report');
+        Route::get('/setting', [AdminController::class, 'Setting'])->name('admin.setting');
     }
 );
+
+//logout Route
+Route::post('postlogout', [OpenController::class, 'PostLogout']);

@@ -14,7 +14,6 @@
     if (window.___browserSync___ === undefined && Number(localStorage.getItem('AdminLTE:Demo:MessageShowed')) < Date.now()) {
       localStorage.setItem('AdminLTE:Demo:MessageShowed', (Date.now()) + (15 * 60 * 1000))
       // eslint-disable-next-line no-alert
-      alert('You load AdminLTE\'s "demo.js", \nthis file is only created for testing purposes!')
     }
   }, 1000)
 
@@ -145,9 +144,15 @@
 
   $(document).on('collapsed.lte.pushmenu', '[data-widget="pushmenu"]', function () {
     $sidebar_collapsed_checkbox.prop('checked', true)
+    $(".sidebar-logo").removeClass('d-flex justify-content-center align-items-center m-3').addClass('brand-link');
+    $(".sidebar-logo-title").removeClass('d-none');
+    localStorage.setItem("sidebar", "not-show");
   })
   $(document).on('shown.lte.pushmenu', '[data-widget="pushmenu"]', function () {
     $sidebar_collapsed_checkbox.prop('checked', false)
+    $(".sidebar-logo").addClass('d-flex justify-content-center align-items-center m-3').removeClass('brand-link');
+    $(".sidebar-logo-title").addClass('d-none');
+    localStorage.setItem("sidebar", "show");
   })
 
   var $sidebar_fixed_checkbox = $('<input />', {
@@ -676,11 +681,11 @@
   $container.append($brand_variants)
 
   var active_brand_color = null
-  $('.brand-link')[0].classList.forEach(function (className) {
-    if (logo_skins.indexOf(className) > -1 && active_brand_color === null) {
-      active_brand_color = className.replace('navbar-', 'bg-')
-    }
-  })
+  // $('.brand-link')[0].classList.forEach(function (className) {
+  //   if (logo_skins.indexOf(className) > -1 && active_brand_color === null) {
+  //     active_brand_color = className.replace('navbar-', 'bg-')
+  //   }
+  // })
 
   if (active_brand_color) {
     $brand_variants.find('option.' + active_brand_color).prop('selected', true)

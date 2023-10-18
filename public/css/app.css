@@ -12,6 +12,40 @@ p{
 .modal-closeIcon{
     font-size: 2rem !important;
 } 
+
+.main-sidebar {
+    background: #2b7d62;
+    color: #ffffffff;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active{
+    background: #3DB272;
+}
+
+.layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*=navbar]) {
+    background: #2b7d62;
+}
+
+.sidebar{
+    height:65% !important;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #3DB272;
+}
+
+body::-webkit-scrollbar {
+    width: 0.1em;
+  }
+  
+body::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+}
+
 @media (min-width: 576px) {}
 
 @media (min-width: 768px) {}

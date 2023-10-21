@@ -2,7 +2,7 @@
 @section('content')
 <div class="login-box">
     <!-- /.login-logo -->
-    <div class="card card-outline card-success">
+    <div class="card card-outline card-primary">
       <div class="card-header text-center">
         <img src="{{asset('image/logo.png')}}" alt="logo" width="80" height="80"/>
         <img src="{{asset('image/mis.png')}}" alt="logo" width="80" height="80"/>
@@ -44,14 +44,14 @@
             </div>
             <!-- /.col -->
             <div class="col-lg-4 col-md-4 col-sm-12">
-              <button type="submit" class="btn btn-success btn-block font-weight-bold">Sign In</button>
+              <button type="submit" class="btn btn-primary btn-block font-weight-bold">Sign In</button>
             </div>
             <!-- /.col -->
           </div>
         </form>
   
         <div class="social-auth-links text-center mt-2 mb-3">
-          <a href="" id="googleAuth" class="btn btn-block btn-success font-weight-bold">
+          <a href="" id="googleAuth" class="btn btn-block btn-primary font-weight-bold">
             <i class="fab fa-google-plus mr-2"></i> Sign in with Google
           </a>
         </div>

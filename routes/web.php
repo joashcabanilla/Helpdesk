@@ -38,9 +38,10 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::get('/', [AdminController::class, 'AdminPage'])->name('admin.index');
         Route::get('/ticketboard', [AdminController::class, 'TicketBoard'])->name('admin.ticketboard');
         Route::get('/tickethistory', [AdminController::class, 'TicketHistory'])->name('admin.tickethistory');
+        Route::get('/board', [AdminController::class, 'Board'])->name('admin.board');
         Route::get('/department', [AdminController::class, 'Department'])->name('admin.department');
         Route::get('/branch', [AdminController::class, 'Branch'])->name('admin.branch');
-        Route::get('/ticket', [AdminController::class, 'Ticket'])->name('admin.ticket');
+        Route::get('/subject', [AdminController::class, 'Subject'])->name('admin.subject');
         Route::get('/admin', [AdminController::class, 'Admin'])->name('admin.admin');
         Route::get('/employee', [AdminController::class, 'Employee'])->name('admin.employee');
         Route::get('/member', [AdminController::class, 'Member'])->name('admin.member');

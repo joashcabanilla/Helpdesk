@@ -52,6 +52,10 @@
         <!-- Toastr -->
         <link rel="stylesheet" href="{{asset('adminlte/plugins/toastr/toastr.min.css')}}">
 
+        <!-- Select2 -->
+        <link rel="stylesheet" href="{{asset('adminlte/plugins/select2/css/select2.min.css')}}">
+        <link rel="stylesheet" href="{{asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+
         <!-- library or Plugins -->
         <!-- Jquery -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -72,6 +76,7 @@
         
         {{--css for page --}}
         <link rel="stylesheet" href="{{asset('css/app.css')}}" />
+        <link rel="stylesheet" href="{{asset('css/Admin.css')}}" />
     </head>
 
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
@@ -120,7 +125,7 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{!empty(Auth::user()->Profile) ?  "data:image/jpeg;base64," . base64_encode(Auth::user()->Profile) : asset('image/profile.png')}}" class="user-image img-circle elevation-1 m-auto" alt="User Image" style="width: 1.8rem; height: 1.8rem;">
+                            <img src="{{!empty(Auth::user()->Profile) ?  "data:image/jpeg;base64," . base64_encode(Auth::user()->Profile) : asset('image/profile.png')}}" class="user-image img-circle elevation-1 m-auto navProfile" alt="User Image">
                         </a>
                     
                         <ul class="dropdown-menu dropdown-menu dropdown-menu-right">
@@ -150,7 +155,7 @@
                 <div class="content-header">
                     <div class="container-fluid">
                     <div class="row">
-                        <h1 class="m-0 font-weight-bold p-2 text-dark tabTitle" style="letter-spacing:3px;">{{$tabTitle}}</h1>
+                        <h1 class="m-0 font-weight-bold p-2 text-dark tabTitle">TICKET BOARD</h1>
                     </div><!-- /.row -->
                     </div><!-- /.container-fluid -->
                 </div>
@@ -181,8 +186,10 @@
 
      <!-- AdminLTE App -->
      <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
-     <script src="{{ asset('adminlte/dist/js/demo.js') }}"></script>
-     <script src="{{ asset('adminlte/plugins/fullcalendar/main.js') }}"></script>
+     <script src="{{asset('adminlte/dist/js/demo.js') }}"></script>
+     <script src="{{asset('adminlte/plugins/fullcalendar/main.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{asset('adminlte/plugins/select2/js/select2.full.min.js')}}"></script>
 
      <!-- SweetAlert App -->
      <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
@@ -219,4 +226,5 @@
     {{--script for page --}}
     <script src="{{asset('js/Public.js')}}"></script>
     <script src="{{asset('js/Sidebar.js')}}"></script>
+    <script src="{{asset('js/AdminSidebar.js')}}"></script>
 </html>

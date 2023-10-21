@@ -1,3 +1,28 @@
+const ajaxPostRequest = (token, url) => {
+    return $.ajax({
+        type:"POST",
+        headers: {"Authorization": "Bearer " + token},
+        url:url,
+    });
+}
+
+const select2GenerateData = (data,elementId) => {
+    let select2Data = [];
+    if(data.length != 0){
+        data.forEach(element => {
+            select2Data.push({
+                id: element.Id,
+                text: element.Name
+            });
+        });
+        $(elementId).select2({
+            theme: 'bootstrap4',
+            data:select2Data
+        });
+    }
+    
+}
+
 const notifToast = (title, message, className) => {
     toastr.options = {
         "closeButton": true,
@@ -46,7 +71,6 @@ const emailVerification = (email, redirectPage) => {
         allowEscapeKey: false,
         input: 'text',
         inputPlaceholder: 'OTP',
-        confirmButtonColor: "#28a745",
         footer:"<p class='text-monospace m-0 mt-2'>Didn't receive OTP? <a href='' class='verify-timer font-weight-bolder'>2:00</a></p>",
         willOpen: (e) => {
             $(".swal2-input").addClass("mt-2 mb-0 inputOTP");
@@ -141,7 +165,6 @@ const findEmail = () => {
         title: title,
         html: '<p class="mb-0 text-monospace verify-message">Please enter your email to search for your account.</p>',
         confirmButtonText: 'Search',
-        confirmButtonColor: "#28a745",
         input: 'text',
         inputPlaceholder: 'Enter your email address',
         showCancelButton: true,

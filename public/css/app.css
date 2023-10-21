@@ -1,5 +1,18 @@
-.hide-element {
-    display: none;
+body, .content-wrapper{
+    background-color: #e9ecef !important;
+}
+
+body::-webkit-scrollbar {
+    width: 5px;
+}
+  
+body::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #2b7d62;
+    border-radius: 10px;
 }
 
 label,
@@ -9,6 +22,11 @@ a,
 p{
     font-size: 1.1rem !important;
 }
+
+.hide-element {
+    display: none;
+}
+
 .modal-closeIcon{
     font-size: 2rem !important;
 } 
@@ -31,21 +49,79 @@ p{
 }
 
 .dropdown-item.active, .dropdown-item:active {
-    background-color: #3DB272;
+    background-color: #2b7d62;
 }
 
-body::-webkit-scrollbar {
-    width: 0.1em;
-  }
-  
-body::-webkit-scrollbar-track {
+.card-primary.card-outline {
+    border-top: 3px solid #2b7d62;
+}
+
+.card-primary:not(.card-outline)>.card-header {
+    background:  #2b7d62;
+}
+
+.navProfile{
+    width: 1.8rem !important; 
+    height: 1.8rem !important;
+}
+
+.tabTitle{
+    letter-spacing: 3px !important;
+}
+
+.select2-container--bootstrap4 .select2-results>.select2-results__options::-webkit-scrollbar-thumb {
+    background-color: #6c757d;
+    border-radius: 10px;
+}
+
+.select2-container--bootstrap4 .select2-results>.select2-results__options::-webkit-scrollbar-track {
     background-color: transparent;
 }
 
-body::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0);
+.select2-container--bootstrap4 .select2-results>.select2-results__options::-webkit-scrollbar {
+    width: 5px;
 }
 
+.btn-primary,
+.btn-primary:focus,
+.swal2-styled.swal2-confirm,
+.swal2-styled.swal2-confirm:focus{
+    background-color: #2b7d62;
+    border: none;
+}
+
+.btn-primary:hover,
+.swal2-styled.swal2-confirm:hover{
+    background-color: #256952 !important;
+}
+
+.btn-primary:active,
+.swal2-styled.swal2-confirm:active{
+    background-color: #205a46 !important
+}
+
+.icheck-success>input:first-child:not(:checked):not(:disabled):hover+label::before{
+    border-color: #2b7d62 !important;
+}
+.icheck-success>input:first-child:checked+label::before{
+    background-color: #2b7d62 !important;
+    border-color: #2b7d62 !important;
+}
+
+.toast-success{
+    background-color:#2b7d62 !important;
+}
+
+.select2-container--bootstrap4 .select2-results__option--highlighted{
+    font-weight: 700 !important;
+    background-color:#2b7d62 !important;
+}
+
+.select2-selection__choice{
+    font-weight: 700 !important;
+    background-color:#2b7d62 !important;
+    color: #fff !important;
+}
 @media (min-width: 576px) {}
 
 @media (min-width: 768px) {}

@@ -23,6 +23,20 @@
 
                 <ul class="nav nav-treeview dropdownTab">
                     <li class="nav-item">
+                      <a href="{{route("admin.board")}}" class="nav-link nav-tab tabLink">
+                        <i class="nav-icon fas fa-building fa-lg"></i>
+                        <p>Board</p>
+                      </a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a href="{{route("admin.branch")}}" class="nav-link nav-tab tabLink">
+                        <i class="nav-icon fas fa-building fa-lg"></i>
+                        <p>Branch</p>
+                      </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="{{route("admin.department")}}" class="nav-link nav-tab tabLink">
                           <i class="nav-icon fas fa-building fa-lg"></i>
                           <p>Department</p>
@@ -30,16 +44,9 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{route("admin.branch")}}" class="nav-link nav-tab tabLink">
-                          <i class="nav-icon fas fa-building fa-lg"></i>
-                          <p>Branch</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{route("admin.ticket")}}" class="nav-link nav-tab tabLink">
+                        <a href="{{route("admin.subject")}}" class="nav-link nav-tab tabLink">
                           <i class="nav-icon fas fa-file-alt fa-lg"></i>
-                          <p>Ticket</p>
+                          <p>Subject</p>
                         </a>
                     </li>
                 </ul>

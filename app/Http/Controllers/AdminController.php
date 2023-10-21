@@ -2,65 +2,63 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    protected $data;
-
     public function __construct()
     {
         $this->middleware('auth');
-        $this->data = array();
     }
 
     function AdminPage(){
-        $this->data['tabTitle'] = "TICKET BOARD";
-        return view('Layouts.Admin', $this->data);
+        return view('Layouts.Admin');
     }
     
     function TicketBoard(){
-        return view('Components.Admin.TicketBoard',$this->data);
+        return view('Components.Admin.TicketBoard');
     }
 
     function TicketHistory(){
-        return view('Components.Admin.TicketHistory',$this->data);
+        return view('Components.Admin.TicketHistory');
+    }
+
+    function Board(){
+        return view('Components.Admin.Board');
     }
 
     function Department(){
-        return view('Components.Admin.Department',$this->data);
+        return view('Components.Admin.Department');
     }
 
     function Branch(){
-        return view('Components.Admin.Branch',$this->data);
+        return view('Components.Admin.Branch');
     }
 
-    function Ticket(){
-        return view('Components.Admin.Ticket',$this->data);
+    function Subject(){
+        return view('Components.Admin.Subject');
     }
 
     function Admin(){
-        return view('Components.Admin.Admin',$this->data);
+        return view('Components.Admin.Admin');
     }
 
     function Employee(){
-        return view('Components.Admin.Employee',$this->data);
+        return view('Components.Admin.Employee');
     }
 
     function Member(){
-        return view('Components.Admin.Member',$this->data);
+        return view('Components.Admin.Member');
     }
 
     function ManageAccount(){
-        return view('Components.Admin.ManageAccount',$this->data);
+        return view('Components.Admin.ManageAccount');
     }
 
     function Report(){
-        return view('Components.Admin.Report',$this->data);
+        return view('Components.Admin.Report');
     }
 
     function Setting(){
-        return view('Components.Admin.Setting',$this->data);
+        return view('Components.Admin.Setting');
     }
 }

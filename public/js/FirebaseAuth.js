@@ -55,7 +55,6 @@ $("#googleAuth").click(e => {
                             text: res.message,
                             allowOutsideClick: false,
                             allowEscapeKey: false,
-                            confirmButtonColor: "#28a745"
                         }).then((result) => {
                             location.reload();
                         });
@@ -71,7 +70,6 @@ $("#googleAuth").click(e => {
             text: 'Gmail Authentication Error',
             allowOutsideClick: false,
             allowEscapeKey: false,
-            confirmButtonColor: "#28a745"
         }).then((result) => {
             location.reload();
         });

@@ -8,9 +8,9 @@
                 </a>
             </li>
             <li class="nav-item mt-2">
-                <a href="{{route("admin.tickethistory")}}" class="nav-link nav-main-tab tabLink">
-                  <i class="nav-icon fas fa-history fa-lg"></i>
-                  <p>Ticket History</p>
+                <a href="{{route("admin.ticketlist")}}" class="nav-link nav-main-tab tabLink">
+                  <i class="nav-icon fas fa-list-ul fa-lg"></i>
+                  <p>Ticket List</p>
                 </a>
             </li>
 
@@ -22,13 +22,6 @@
                 </a>
 
                 <ul class="nav nav-treeview dropdownTab">
-                    <li class="nav-item">
-                      <a href="{{route("admin.board")}}" class="nav-link nav-tab tabLink">
-                        <i class="nav-icon fas fa-building fa-lg"></i>
-                        <p>Board</p>
-                      </a>
-                    </li>
-
                     <li class="nav-item">
                       <a href="{{route("admin.branch")}}" class="nav-link nav-tab tabLink">
                         <i class="nav-icon fas fa-building fa-lg"></i>
@@ -43,6 +36,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                      <a href="{{route("admin.category")}}" class="nav-link nav-tab tabLink">
+                        <i class="nav-icon fas fa-file-alt fa-lg"></i>
+                        <p>Concern Category</p>
+                      </a>
+                    </li>
+                    
                     <li class="nav-item">
                         <a href="{{route("admin.subject")}}" class="nav-link nav-tab tabLink">
                           <i class="nav-icon fas fa-file-alt fa-lg"></i>

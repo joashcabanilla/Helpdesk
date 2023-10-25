@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            Ticket History
+            Ticket List
         </div>
     </div>
 </div>

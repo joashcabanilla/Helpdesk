@@ -5,14 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BoardModel extends Model
+class CategoryModel extends Model
 {
     use HasFactory;
-    protected $table = 'board';
+    protected $table = 'ticketcategory';
     protected $primaryKey = 'Id';
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
     protected $fillable = [
         'Name',
+        'Code'
     ];
+
+    function subjects(){
+        return $this->hasMany(SubjectModel::class, "Category");
+    }
 }

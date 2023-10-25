@@ -221,6 +221,8 @@
         $(document).ajaxStop(function(){
             $.LoadingOverlay("hide");
         });
+
+        var routeTicketBoard = "{{route('admin.ticketboard')}}";
     </script>
     
     {{--script for page --}}

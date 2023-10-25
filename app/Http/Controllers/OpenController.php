@@ -13,4 +13,8 @@ class OpenController extends Controller
         $request->session()->regenerateToken();
         return response('logout',200); 
     }
+
+    function NewTicket(){
+        return view('Components.CreateNewTicket');
+    }
 }

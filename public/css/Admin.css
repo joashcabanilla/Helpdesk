@@ -1,0 +1,36 @@
+.carouselImage {
+    width: 100%;
+    height: 100px;
+    border: 4px solid;
+    padding: 0;
+    border-color: #2b7d62;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+.carouselSetImage {
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+}
+
+@media (min-width: 320px) {
+    .carouselImage {
+        height: 200px;
+    }
+}
+
+@media (min-width: 768px) {
+    .carouselImage {
+        height: 150px;
+    }
+}
+
+@media (min-width: 992px) {
+    .carouselImage {
+        height: 100px;
+    }
+}
+
+@media (min-width: 1200px) {}

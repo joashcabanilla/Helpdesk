@@ -37,7 +37,7 @@ Route::prefix('v2')->middleware(['auth:sanctum','abilities:user'])->group(
 //Admin Protected Route
 Route::prefix('v3')->middleware(['auth:sanctum','abilities:admin'])->group(
     function (){
-        Route::post('/get/data/board/{id}', [AdminController::class, 'GetBoardData']);
+        Route::post('/get/data/category/{id}', [AdminController::class, 'GetCategoryData']);
         Route::post('/get/data/branch/{id}', [AdminController::class, 'GetBranchData']);
         Route::post('/get/data/department/{id}', [AdminController::class, 'GetDepartmentData']);
         Route::post('/get/data/subject/{id}', [AdminController::class, 'GetSubjectData']);

@@ -1,12 +1,24 @@
-const ajaxPostRequest = (token, url) => {
+const ajaxPostRequest = (token, url, data = {}) => {
     return $.ajax({
         type:"POST",
         headers: {"Authorization": "Bearer " + token},
         url:url,
+        data: data
     });
 }
 
-const select2GenerateData = (data,elementId) => {
+const fetchAPI = (token, url, data = {}) => {
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            "Authorization": "Bearer " + token,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    });
+}
+
+const select2GenerateData = (data,elementId,elementFont = "") => {
     let select2Data = [];
     if(data.length != 0){
         data.forEach(element => {
@@ -15,10 +27,18 @@ const select2GenerateData = (data,elementId) => {
                 text: element.Name
             });
         });
+
         $(elementId).select2({
             theme: 'bootstrap4',
             data:select2Data
         });
+        
+        $(elementId).next().find(".select2-search__field").attr("name","search-"+elementId.replace("#","")).attr("id","search-"+elementId.replace("#",""));
+
+        if(elementFont != ""){
+            $(elementFont).css("font-weight","500");
+            $(elementFont).css("color","#000000");
+        }
     }
     
 }

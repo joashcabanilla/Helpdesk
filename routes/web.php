@@ -37,8 +37,8 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
     function (){
         Route::get('/', [AdminController::class, 'AdminPage'])->name('admin.index');
         Route::get('/ticketboard', [AdminController::class, 'TicketBoard'])->name('admin.ticketboard');
-        Route::get('/tickethistory', [AdminController::class, 'TicketHistory'])->name('admin.tickethistory');
-        Route::get('/board', [AdminController::class, 'Board'])->name('admin.board');
+        Route::get('/ticketlist', [AdminController::class, 'TicketList'])->name('admin.ticketlist');
+        Route::get('/category', [AdminController::class, 'Category'])->name('admin.category');
         Route::get('/department', [AdminController::class, 'Department'])->name('admin.department');
         Route::get('/branch', [AdminController::class, 'Branch'])->name('admin.branch');
         Route::get('/subject', [AdminController::class, 'Subject'])->name('admin.subject');
@@ -51,5 +51,7 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
     }
 );
 
+//Open Route
 //logout Route
 Route::post('postlogout', [OpenController::class, 'PostLogout']);
+Route::get('/newticket', [OpenController::class, 'NewTicket'])->name('admin.newticket');

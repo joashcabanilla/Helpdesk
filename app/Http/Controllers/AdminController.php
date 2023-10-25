@@ -18,12 +18,12 @@ class AdminController extends Controller
         return view('Components.Admin.TicketBoard');
     }
 
-    function TicketHistory(){
-        return view('Components.Admin.TicketHistory');
+    function TicketList(){
+        return view('Components.Admin.TicketList');
     }
 
-    function Board(){
-        return view('Components.Admin.Board');
+    function Category(){
+        return view('Components.Admin.Category');
     }
 
     function Department(){

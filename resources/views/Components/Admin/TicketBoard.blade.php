@@ -3,16 +3,8 @@
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="form-group">
-                    <label for="boardFilter">Board</label>
-                    <select class="form-control select2bs4 font-weight-bold" multiple="multiple" data-placeholder="Select Board" id="boardFilter" name="boardFilter">  
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <div class="form-group">
                     <label for="branchFilter">Branch</label>
-                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Branch" id="branchFilter" name="branchFilter">  
+                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Branch" id="branchFilter" name="branchFilter" style="width: 100%;">  
                     </select>
                 </div>
             </div>
@@ -20,7 +12,15 @@
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="form-group">
                     <label for="departmentFilter">Department</label>
-                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Department" id="departmentFilter" name="departmentFilter">  
+                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Department" id="departmentFilter" name="departmentFilter" style="width: 100%;">  
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group">
+                    <label for="categoryFilter">Concern Category</label>
+                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Category" id="categoryFilter" name="categoryFilter" style="width: 100%;">  
                     </select>
                 </div>
             </div>
@@ -28,7 +28,7 @@
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="form-group">
                     <label for="subjectFilter">Subject</label>
-                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Subject" id="subjectFilter" name="subjectFilter">  
+                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Subject" id="subjectFilter" name="subjectFilter" disabled style="width: 100%;">  
                     </select>
                 </div>
             </div>
@@ -47,8 +47,9 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <button class="btn btn-primary font-weight-bold btn-lg"><i class="fas fa-plus"></i> New Ticket</button>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <button class="btn btn-secondary font-weight-bold btn-lg mr-2" id="clearFilter"><i class="fas fa-filter"></i> Clear Filter</button>
+                <button class="btn btn-primary font-weight-bold btn-lg" id="newTicketBtn" data-url="{{route("admin.newticket")}}"><i class="fas fa-plus"></i> New Ticket</button>
             </div>
         </div>
     </div>

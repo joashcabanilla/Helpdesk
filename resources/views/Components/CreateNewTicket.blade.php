@@ -7,9 +7,9 @@
             </div>
         </div>
 
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" class="d-none" name="attachImage" accept="image/jpeg, image/png, image/jpg" multiple>
-
+        <form id="newTicketform" method="POST" enctype="multipart/form-data">
+            <div class="row attachmentInput d-none"></div>
+            
             <div class="row mt-3">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
@@ -32,35 +32,15 @@
 
             <div class="row">
                 <div class="col-12">
-                    <p class="font-weight-bold float-left mt-1 mb-0 mr-1">Attachments (0)</p>
-                    <a class="btn btn-sm btn-light">File Name1 <i class="far fa-times-circle text-danger"></i></a>
-                    <a class="btn btn-sm btn-light">File Name2 <i class="far fa-times-circle text-danger"></i></a>
-                    <a class="btn btn-sm btn-light">File Name3 <i class="far fa-times-circle text-danger"></i></a>
+                    <p class="font-weight-bold float-left mt-1 mb-0 mr-1 attachLabel">Attachments (0)</p>
                     <div class="float-right">
-                        <a class="btn btn-sm btn-light font-weight-bold" id="deleteImage" title="delete all"><i class="fas fa-trash"></i></a>
-                        <a class="btn btn-sm btn-light font-weight-bold" id="addImage"  title="add Image"><i class="fas fa-plus"></i></a>
+                        <a class="btn btn-sm btn-light font-weight-bold addDelete" id="attachDelete" title="delete all"><i class="fas fa-trash"></i></a>
+                        <a class="btn btn-sm btn-light font-weight-bold addDelete" id="attachAdd"  title="add Image"><i class="fas fa-plus"></i></a>
                     </div>
                 </div>
             </div>
 
-            <div class="row attachmentContainer">
-                <div class="col-lg-2 col-md-3 col-sm-12 p-1">
-                    <div class="img-fluid elevation-2 carouselImage">
-                        <img class="carouselSetImage" alt="attachment image"  width="100" height="100" src="{{asset('image/logo.png')}}"/>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-12 p-1">
-                    <div class="img-fluid elevation-2 carouselImage">
-                        <img class="carouselSetImage" alt="attachment image" width="100" height="100" src="{{asset('image/noimage-black.jpg')}}"/>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-sm-12 p-1">
-                    <div class="img-fluid elevation-2 carouselImage">
-                        <img class="carouselSetImage" alt="attachment image" width="100" height="100" src="{{asset('image/noimage-black.jpg')}}"/>
-                    </div>
-                </div>
-            </div>
+            <div class="row attachmentContainer"></div>
         </form>
     </div>
 </div>

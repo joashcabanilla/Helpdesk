@@ -55,6 +55,9 @@
         <!-- Select2 -->
         <link rel="stylesheet" href="{{asset('adminlte/plugins/select2/css/select2.min.css')}}">
         <link rel="stylesheet" href="{{asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+        
+        <!-- Ekko Lightbox -->
+        <link rel="stylesheet" href="{{asset('adminlte/plugins/ekko-lightbox/ekko-lightbox.css')}}">
 
         <!-- library or Plugins -->
         <!-- Jquery -->
@@ -195,6 +198,9 @@
      <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
      <!-- Toastr -->
      <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
+
+     <!-- Ekko Lightbox -->
+     <script src="{{asset('adminlte/plugins/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
      <script>
      $.widget.bridge('uibutton', $.ui.button)
      </script>

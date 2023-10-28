@@ -9,10 +9,17 @@
     align-items: center;
     border-radius: 10px;
 }
+
+.carouselImage:hover img{
+    transform: scale(1.03);
+}
+
 .carouselSetImage {
+    cursor: pointer;
     border-radius: 5px;
     width: 100%;
     height: 100%;
+    transition: transform 0.3s;
 }
 
 @media (min-width: 320px) {

@@ -7,6 +7,17 @@ const ajaxPostRequest = (token, url, data = {}) => {
     });
 }
 
+const ajaxPostFile = (token, url, data = {}) => {
+    return $.ajax({
+        type:"POST",
+        headers: {"Authorization": "Bearer " + token},
+        url:url,
+        data: data,
+        processData: false,
+        contentType: false
+    });
+}
+
 const fetchAPI = (token, url, data = {}) => {
     return fetch(url, {
         method: 'POST',

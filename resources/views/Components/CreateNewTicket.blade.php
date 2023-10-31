@@ -14,7 +14,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
                         <label for="category">Concern Category</label>
-                        <select class="form-control select2bs4" data-placeholder="Select Category" id="category" name="category" style="width: 100%;">
+                        <select class="form-control select2bs4" data-placeholder="Select Category" id="category" name="category" style="width: 100%;" required>
                             <option value=""></option>
                         </select>
                     </div>
@@ -23,7 +23,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
                         <label for="subject">Subject</label>
-                        <select class="form-control select2bs4" data-placeholder="Select Subject" id="subject" name="subject" disabled style="width: 100%;"> 
+                        <select class="form-control select2bs4" data-placeholder="Select Subject" id="subject" name="subject" disabled style="width: 100%;" required> 
                             <option value=""></option>
                         </select>
                     </div>
@@ -41,6 +41,21 @@
             </div>
 
             <div class="row attachmentContainer"></div>
+
+            <div class="row mt-2">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button class="btn btn-lg btn-primary font-weight-bold" type="submit">Create Ticket</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>

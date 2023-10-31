@@ -41,5 +41,8 @@ Route::prefix('v3')->middleware(['auth:sanctum','abilities:admin'])->group(
         Route::post('/get/data/branch/{id}', [AdminController::class, 'GetBranchData']);
         Route::post('/get/data/department/{id}', [AdminController::class, 'GetDepartmentData']);
         Route::post('/get/data/subject/{id}', [AdminController::class, 'GetSubjectData']);
+
+        //ticket route
+        Route::post('/ticket/create', [AdminController::class, 'CreateTicket']);
     }
 );

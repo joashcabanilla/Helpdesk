@@ -9,10 +9,11 @@ use App\Models\CategoryModel;
 use App\Models\BranchModel;
 use App\Models\DepartmentModel;
 use App\Models\SubjectModel;
+use App\Models\TicketModel;
 
 class AdminController extends Controller
 {
-    protected $ticketCategoryModel, $branchModel, $departmentModel, $subjectModel;
+    protected $ticketCategoryModel, $branchModel, $departmentModel, $subjectModel, $ticketModel;
 
     public function __construct()
     {
@@ -20,6 +21,7 @@ class AdminController extends Controller
         $this->branchModel = new BranchModel();
         $this->departmentModel = new DepartmentModel();
         $this->subjectModel = new SubjectModel();   
+        $this->ticketModel = new TicketModel();
     }
 
     function GetCategoryData(Request $request, $id){
@@ -55,5 +57,13 @@ class AdminController extends Controller
         }else{
             return response()->json($this->subjectModel->find($id),200);
         }
+    }
+
+    function CreateTicket(Request $request){
+        $result = $this->ticketModel->CreateTicket($request);
+        if($result){
+            return response("Ticket Successfully Created.",200);
+        }
+        return response('Database Error',500);
     }
 }

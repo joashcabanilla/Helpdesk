@@ -14,7 +14,7 @@ const changeCategory = (subjectElement, data) => {
             if(subjectElement == "#subject"){
                 $(subjectElement).append("<option value=''></option>");
             }
-            select2GenerateData(data,subjectElement);
+            select2GenerateData(data,subjectElement, "#select2-subject-container");
             $(subjectElement).attr("disabled",false);
         }else{
             $(subjectElement).attr("disabled",true);
@@ -150,6 +150,49 @@ const newticketTab = () => {
         $(".attachmentContainer").empty();
         $(".attachLabel").parent().find("a:not(.addDelete)").remove();
         $(".attachLabel").text("Attachments (0)");
+    });
+
+    $('#description').summernote({
+        placeholder: 'Description',
+        tabsize: 2,
+        height: 200,     
+        dialogsInBody:true,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', []],
+            ['insert', []],
+            ['view', []],
+            ['help', ['help']]
+        ]
+    });
+
+    $("#newTicketform").submit((e) => {
+        e.preventDefault();
+        let formData = new FormData(e.currentTarget);
+        let description = $("#description").val();
+        
+        if(description == "" || description == "<p><br></p>" || description == "&nbsp;" || description == "<p>&nbsp;</p>"){
+            $('#description').summernote('focus');
+            notifToast("New Ticket","Please fill out description","warning");
+        }else{
+            formData.set("description",$('#description').summernote('code'));
+            let createTicket = ajaxPostFile(localStorage.getItem("api_token"),"api/v3/ticket/create",formData);
+            createTicket.done((res, textStatus, xhr) => {
+                if(xhr.status == 200){
+                    notifToast("New Ticket",res,"success");
+                }else{
+                    notifToast("New Ticket",res,"error");
+                }
+                $("#category").val("").trigger("change").focus();
+                $('#description').summernote('code', '');
+                $("#attachDelete").trigger("click");
+            });
+        }
     });
 }
 

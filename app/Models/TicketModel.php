@@ -52,6 +52,24 @@ class TicketModel extends Model
         $user = $this->userModel->getAllUser();
         $ticketData = $this;
 
+        if(isset($param['ticketNo']) && !empty($param['ticketNo'])){
+            $ticketNo = explode("-",$param['ticketNo']);
+            if(count($ticketNo) == 2){
+                $categoryId = 0;
+                foreach($category as $catId => $cat){
+                   if($cat["code"] == strtoupper($ticketNo[0])){
+                        $categoryId = $catId;
+                   }
+                }
+
+                if($categoryId != 0){
+                    $ticketNum = (int) $ticketNo[1]; 
+                     $ticketData = $ticketData->where("Category",$categoryId)->where("TicketNo",$ticketNum);            
+                }
+                
+            }   
+        }
+
         if(isset($param["branch"]) && !empty($param["branch"])){
             $ticketData = $ticketData->whereIn("Branch", $param["branch"]);
         }

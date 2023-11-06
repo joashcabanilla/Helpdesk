@@ -275,7 +275,6 @@ const ticketBoardTab = () => {
         if($(e.currentTarget).attr("id") != "categoryFilter"){
             generateTicketComponent(data);
         }
-
     });
 }
 

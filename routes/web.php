@@ -55,3 +55,4 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
 //logout Route
 Route::post('postlogout', [OpenController::class, 'PostLogout']);
 Route::get('/newticket', [OpenController::class, 'NewTicket'])->name('admin.newticket');
+Route::get('/viewticket', [OpenController::class, 'ViewTicket'])->name('admin.viewticket');

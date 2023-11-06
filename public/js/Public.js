@@ -253,6 +253,21 @@ const findEmail = () => {
     });
 }
 
+const viewTicketTab = (data) => {
+    let category = data.category;
+    let subject = data.subject;
+    let reporter = data.reporter;
+    let level = data.priorityLevel;
+    let assignee = data.assignee;
+    $(".ticketCategoryLabel").text(category.name +" - "+ subject.name);
+    $(".tabTitle").text("VIEW TICKET: " + data.ticketNoLabel);
+    $("#backBtn").html("<i class='fas fa-arrow-left'></i> Return to " + $(".tabLink.active").find("p").text().toLowerCase());
+    $("#backBtn").click((e) => {
+        e.preventDefault();
+        $(".tabLink.active").trigger("click");
+    });
+} 
+
 const generateTicketComponent = (filter = {}) => {
     let api_token = localStorage.getItem("api_token");
     let getTicket = ajaxPostRequest(api_token, "api/v3/ticket/get/0", filter);
@@ -306,6 +321,18 @@ const generateTicketComponent = (filter = {}) => {
                     
                     ticket.find(".ticketAssignee").removeClass("d-none");
                 }
+
+                ticket.find(".viewTicket").click((e) => {
+                    e.preventDefault();
+                    $(".content").load($(e.currentTarget).attr("href"), ( res, status, xhr) => {
+                        if(status == "success"){
+                            viewTicketTab(data);
+                        }else{
+                            notifToast("Admin Page", "PAGE NOT FOUND","error");
+                        }
+                    });
+                });
+
                 switch(data.status.value){
                     case 1:
                         $(".todoContainer").append(ticket);

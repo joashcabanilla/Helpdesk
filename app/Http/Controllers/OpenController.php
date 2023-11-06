@@ -17,4 +17,8 @@ class OpenController extends Controller
     function NewTicket(){
         return view('Components.CreateNewTicket');
     }
+
+    function ViewTicket(){
+        return view('Components.ViewTicket');
+    }
 }

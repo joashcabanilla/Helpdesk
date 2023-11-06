@@ -107,7 +107,7 @@
                             <div class="input-group input-group-lg">
                                 <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="navsearchticket" id="navSearchTicket">
                                 <div class="input-group-append">
-                                    <button class="btn btn-navbar" type="submit">
+                                    <button class="btn btn-navbar" type="submit" data-url="{{route("admin.viewticket")}}">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>

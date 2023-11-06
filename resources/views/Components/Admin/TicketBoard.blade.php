@@ -1,55 +1,33 @@
 <div class="container-fluid">
-    <div class="card card-primary card-outline elevation-2 p-3">
+    @include('Components.TicketBoardFilter')
+    <div class="callout p-2 m-1 mb-2 d-none ticketContainer">
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <div class="form-group">
-                    <label for="branchFilter">Branch</label>
-                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Branch" id="branchFilter" name="branchFilter" style="width: 100%;">  
-                    </select>
-                </div>
+            <div class="col-12">
+                <p class="font-weight-bold float-left ticketNoLabel">ticket No Label</p>
+                <div class="btn-group float-right">
+                    <button type="button" class="btn btn-sm btn-light" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu dropdown-menu-right ticketMenuBtn">
+                      <a class="dropdown-item" href=""><i class="fas fa-eye"></i> View</a>
+                      <a class="dropdown-item" href=""><i class="fas fa-edit"></i> Edit</a>
+                      <a class="dropdown-item" href=""><i class="fas fa-trash"></i> Delete</a>
+                    </div>
+                  </div>
             </div>
-            
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <div class="form-group">
-                    <label for="departmentFilter">Department</label>
-                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Department" id="departmentFilter" name="departmentFilter" style="width: 100%;">  
-                    </select>
-                </div>
+            <div class="col-12">
+                <p class="text-uppercase font-weight-bold ticketCategorySubject">category - subject</p>
             </div>
-
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <div class="form-group">
-                    <label for="categoryFilter">Concern Category</label>
-                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Category" id="categoryFilter" name="categoryFilter" style="width: 100%;">  
-                    </select>
-                </div>
+            <div class="col-12 mt-2">
+                <p class="ticketReporter">Reporter</p>
             </div>
-            
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <div class="form-group">
-                    <label for="subjectFilter">Subject</label>
-                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Subject" id="subjectFilter" name="subjectFilter" disabled style="width: 100%;">  
-                    </select>
-                </div>
+            <div class="col-12">
+                <p class="ticketBranchDepartment">Branch - Department</p>
             </div>
-            
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <div class="form-group">
-                    <label for="datefromFilter">Date From</label>
-                    <input class="form-control" type="date" id="datefromFilter" name="datefromFilter" />  
-                </div>
+            <div class="col-12">
+                <p class="ticketLevel">Priority Level</p>
             </div>
-            
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <div class="form-group">
-                    <label for="datetoFilter">Date To</label>
-                    <input class="form-control" type="date" id="datetoFilter" name="datetoFilter" /> 
-                </div>
-            </div>
-
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <button class="btn btn-secondary font-weight-bold btn-lg mr-2" id="clearFilter"><i class="fas fa-filter"></i> Clear Filter</button>
-                <button class="btn btn-primary font-weight-bold btn-lg" id="newTicketBtn" data-url="{{route("admin.newticket")}}"><i class="fas fa-plus"></i> New Ticket</button>
+            <div class="col-12 mt-2">
+                <p class="ticketAssignee d-none"></p>
             </div>
         </div>
     </div>
@@ -59,7 +37,7 @@
             <div class="card-header">
                 <h3 class="card-title font-weight-bolder">To Do</h3>
             </div>
-            <div class="card-body p-1 mt-2 mb-2">
+            <div class="card-body p-2 mt-2 mb-2 todoContainer">
             </div>
         </div>
 
@@ -67,7 +45,7 @@
             <div class="card-header">
                 <h3 class="card-title font-weight-bolder">In Progress</h3>
             </div>
-            <div class="card-body p-1 mt-2 mb-2">
+            <div class="card-body p-1 mt-2 mb-2 inprogressContainer">
             </div>
         </div>
 
@@ -75,7 +53,7 @@
             <div class="card-header">
                 <h3 class="card-title font-weight-bolder">Done</h3>
             </div>
-            <div class="card-body p-1 mt-2 mb-2">
+            <div class="card-body p-1 mt-2 mb-2 doneContainer">
             </div>
         </div>
     </div>

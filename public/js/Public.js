@@ -253,6 +253,79 @@ const findEmail = () => {
     });
 }
 
+const generateTicketComponent = (filter = {}) => {
+    let api_token = localStorage.getItem("api_token");
+    let getTicket = ajaxPostRequest(api_token, "api/v3/ticket/get/0", filter);
+    $(".todoContainer,.inprogressContainer,.doneContainer").empty();
+    getTicket.done((res, textStatus, xhr) => {
+        if(xhr.status == 200){
+            res.forEach(data => {
+                let ticket = $(".ticketContainer").clone();
+                let category = data.category;
+                let subject = data.subject;
+                let reporter = data.reporter;
+                let level = data.priorityLevel;
+                let assignee = data.assignee;
+                let levelColor = "";
+        
+                ticket.removeClass("d-none ticketContainer");
+                ticket.find(".ticketNoLabel").text(data.ticketNoLabel);
+                ticket.find(".ticketCategorySubject").text(category.name +" - "+ subject.name);
+                ticket.find(".ticketReporter").text(reporter.prefix +" "+ reporter.firstname +" "+ reporter.lastname);
+                ticket.find(".ticketBranchDepartment").text(reporter.branch.name +" - "+ reporter.department.name);
+        
+                switch(level.value){
+                    case 1:
+                        levelColor = "#1e7e34";
+                        ticket.addClass("callout-success");
+                    break;
+        
+                    case 2:
+                        levelColor = "#117a8b";
+                        ticket.addClass("callout-info");
+                    break;
+        
+                    case 3:
+                        levelColor = "#d39e00";
+                        ticket.addClass("callout-warning");
+                    break;
+        
+                    case 4:
+                        levelColor = "#bd2130";
+                        ticket.addClass("callout-danger");
+                    break;
+                }
+                
+                ticket.find(".ticketLevel").html("<i class='fas fa-bars' style='color:"+levelColor+";'></i> <b>"+level.label+"</b>");
+                
+                if(assignee != null){
+                    let assigneeProfile = assignee.profile == null ? defaultProfile : assignee.profile;
+                    let assigneeName = assignee.prefix +" "+ assignee.firstname +" "+ assignee.lastname;
+        
+                    ticket.find(".ticketAssignee").html("<img class='user-image img-circle elevation-1 m-auto navProfile' alt='user' title='"+assignee.department.name+" - "+assigneeName+"' src='"+assigneeProfile+"'/> "+assigneeName+"");
+                    
+                    ticket.find(".ticketAssignee").removeClass("d-none");
+                }
+                switch(data.status.value){
+                    case 1:
+                        $(".todoContainer").append(ticket);
+                    break;
+        
+                    case 2:
+                        $(".inprogressContainer").append(ticket);
+                    break;
+        
+                    case 3:
+                        $(".doneContainer").append(ticket);
+                    break;
+                }
+            });
+        }else{
+            notifToast("Ticket Board Tab", res,"warning");
+        }
+    });
+}
+
 $(document).ready((e) => {
     const mobileMediaQuery = window.matchMedia("(max-width: 576px)");
 

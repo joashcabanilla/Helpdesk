@@ -20,4 +20,15 @@ class CategoryModel extends Model
     function subjects(){
         return $this->hasMany(SubjectModel::class, "Category");
     }
+
+    function getAllCategory(){
+        $result = array();
+        foreach($this->get() as $data){
+            $result[$data->Id] = [
+                "code" => $data->Code,
+                "name" => $data->Name
+            ];
+        }
+        return $result;
+    }
 }

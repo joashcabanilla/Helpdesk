@@ -62,6 +62,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected $branchModel, $departmentModel;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->branchModel = new BranchModel();
+        $this->departmentModel = new DepartmentModel();
+    }
+
     function CreateUser($param, $userType){
         $data = (object) $param;
         return $this->create([
@@ -121,5 +130,30 @@ class User extends Authenticatable implements MustVerifyEmail
             "Status" => "active",
             "Attemp" => 0
         ]);
+    }
+
+    function getAllUser(){
+        $result = array();
+        $branch = $this->branchModel->getAllBranch();
+        $department = $this->departmentModel->getAllDepartment();
+        $user = $this->where("Status","active")->get();
+        
+        foreach($user as $data){
+            $result[$data->Id] = [
+                "usertype" => $data->UserType,
+                "prefix" => $data->Prefix,
+                "firstname" => ucwords(strtolower($data->FirstName)),
+                "middlename" => ucwords(strtolower($data->MiddleName)),
+                "lastname" => ucwords(strtolower($data->LastName)),
+                "suffix" => $data->Suffix,
+                "profile" => !empty($data->Profile) ? "data:image/jpeg;base64,".base64_encode($data->Profile) : null,
+                "branch" => !empty($data->Branch) ? $branch[$data->Branch] : null,
+                "department" => !empty($data->Department) ? $department[$data->Department] : null,
+                "memberId" => $data->MemberId,
+                "employeeId" => $data->EmployeeId,
+                "email" => $data->email,
+            ];
+        }
+        return $result;
     }
 }

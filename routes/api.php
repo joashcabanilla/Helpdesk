@@ -43,6 +43,7 @@ Route::prefix('v3')->middleware(['auth:sanctum','abilities:admin'])->group(
         Route::post('/get/data/subject/{id}', [AdminController::class, 'GetSubjectData']);
 
         //ticket route
+        Route::post('/ticket/get/{id}', [AdminController::class, 'GetTicketData']);
         Route::post('/ticket/create', [AdminController::class, 'CreateTicket']);
     }
 );

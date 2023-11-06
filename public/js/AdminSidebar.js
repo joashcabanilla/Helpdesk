@@ -1,7 +1,7 @@
 const changeCategory = (subjectElement, data) => {
     $(subjectElement).val("");
     $(subjectElement).empty().trigger('change');
-
+    
     let subjectDataRequest = fetchAPI(localStorage.getItem("api_token"),"api/v3/get/data/subject/0",data);
     subjectDataRequest.then((response) => {
         if(response.ok){
@@ -179,7 +179,10 @@ const newticketTab = () => {
         if(description == "" || description == "<p><br></p>" || description == "&nbsp;" || description == "<p>&nbsp;</p>"){
             $('#description').summernote('focus');
             notifToast("New Ticket","Please fill out description","warning");
-        }else{
+        }else if($("#subject").attr("disabled")){
+            notifToast("New Ticket","Please select subject","warning");
+        }
+        else{
             formData.set("description",$('#description').summernote('code'));
             let createTicket = ajaxPostFile(localStorage.getItem("api_token"),"api/v3/ticket/create",formData);
             createTicket.done((res, textStatus, xhr) => {
@@ -204,10 +207,11 @@ const ticketBoardTab = () => {
     $('.select2bs4').select2({
         theme: 'bootstrap4'
     });
-
-    let categoryDataRequest = ajaxPostRequest(localStorage.getItem("api_token"),"api/v3/get/data/category/0");
-    let branchDataRequest = ajaxPostRequest(localStorage.getItem("api_token"),"api/v3/get/data/branch/0");
-    let departmentDataRequest = ajaxPostRequest(localStorage.getItem("api_token"),"api/v3/get/data/department/0");
+    let api_token = localStorage.getItem("api_token");
+    let categoryDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/category/0");
+    let branchDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/branch/0");
+    let departmentDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/department/0");
+    generateTicketComponent();
 
     categoryDataRequest.done((res, textStatus, xhr) => {
         if(xhr.status == 200){
@@ -249,6 +253,29 @@ const ticketBoardTab = () => {
                 notifToast("Admin Page", "PAGE NOT FOUND","error");
             }
         });
+    });
+
+    $("#clearFilter").click((e) => {
+        e.preventDefault();
+        $(".tabLink.active").trigger("click");
+    });
+
+    $("#branchFilter,#departmentFilter,#categoryFilter,#subjectFilter,#levelFilter,#datefromFilter,#datetoFilter").change((e) => {
+        e.preventDefault();
+        let data = {
+            branch: $("#branchFilter").val(),
+            department: $("#departmentFilter").val(),
+            category: $("#categoryFilter").val(),
+            subject: $("#subjectFilter").val(),
+            level: $("#levelFilter").val(),
+            datefrom: $("#datefromFilter").val(),
+            dateto: $("#datetoFilter").val(),
+        };
+        
+        if($(e.currentTarget).attr("id") != "categoryFilter"){
+            generateTicketComponent(data);
+        }
+
     });
 }
 

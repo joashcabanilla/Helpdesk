@@ -3,6 +3,7 @@
 
         <div class="row">
             <div class="col-12">
+                <h4 class="font-weight-bold float-left ticketNoLabel"></h4>
                 <a class="btn btn-primary btn-sm font-weight-bold float-right" id="backBtn"></a>
             </div>
         </div>

@@ -228,6 +228,7 @@
             $.LoadingOverlay("hide");
         });
 
+        var defaultProfile = "{{asset('image/profile.png')}}";
         var routeTicketBoard = "{{route('admin.ticketboard')}}";
     </script>
     

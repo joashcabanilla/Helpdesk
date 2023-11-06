@@ -15,4 +15,15 @@ class BranchModel extends Model
     protected $fillable = [
         'Name',
     ];
+
+    function getAllBranch(){
+        $result = array();
+        foreach($this->get() as $data){
+            $result[$data->Id] = [
+                "id" => $data->Id,
+                "name" => $data->Name
+            ];
+        }
+        return $result;
+    }
 }

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
+//Classes
+use App\Classes\HelperClass;
+
 class TicketModel extends Model
 {
     use HasFactory;
@@ -22,11 +25,97 @@ class TicketModel extends Model
         'Status',
         'Assignee',
         'Reporter',
+        'Branch',
+        'Department',
         'Attach0',
         'Attach1',
         'Attach2'
     ];
 
+    protected $ticketCategoryModel, $branchModel, $departmentModel, $subjectModel, $helper, $userModel;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->ticketCategoryModel = new CategoryModel();
+        $this->branchModel = new BranchModel();
+        $this->departmentModel = new DepartmentModel();
+        $this->subjectModel = new SubjectModel();   
+        $this->helper = new HelperClass();
+        $this->userModel = new User();
+    }
+
+    function getTicket($id, $param){
+        $result = array();
+        $category = $this->ticketCategoryModel->getAllCategory();
+        $subject = $this->subjectModel->getAllSubject();
+        $user = $this->userModel->getAllUser();
+        $ticketData = $this;
+
+        if(isset($param["branch"]) && !empty($param["branch"])){
+            $ticketData = $ticketData->whereIn("Branch", $param["branch"]);
+        }
+
+        if(isset($param["department"]) && !empty($param["department"])){
+            $ticketData = $ticketData->whereIn("Department", $param["department"]);
+        }
+        
+        if(isset($param["category"]) && !empty($param["category"])){
+            $ticketData = $ticketData->whereIn("Category", $param["category"]);
+        }
+
+        if(isset($param["subject"]) && !empty($param["subject"])){
+            $ticketData = $ticketData->whereIn("Subject", $param["subject"]);
+        }
+
+        if(isset($param["level"]) && !empty($param["level"])){
+            $ticketData = $ticketData->whereIn("PriorityLevel", $param["level"]);
+        }
+
+        if(isset($param["datefrom"]) && !empty($param["datefrom"])){
+            $ticketData = $ticketData->where("created_at",">=",$param["datefrom"]);
+        }
+
+        if(isset($param["dateto"]) && !empty($param["dateto"])){
+            $ticketData = $ticketData->where("created_at","<=",$param["dateto"]);
+        }
+
+        $ticketData = $id == 0 ? $ticketData->orderBy("Category")->orderBy("TicketNo")->get() : $ticketData->where("Id",$id)->get();
+
+        if(!empty($ticketData)){
+            foreach($ticketData as $ticket){
+                $ticketNo = $ticket->TicketNo <= 999 ? sprintf('%03d', $ticket->TicketNo) : $ticket->TicketNo;
+                $ticketNoLabel = $category[$ticket->Category]["code"]."-". $ticketNo;
+                $result[] = [
+                    "id" => $ticket->Id,
+                    "ticketNo" => $ticket->TicketNo,
+                    "ticketNoLabel" => $ticketNoLabel,
+                    "category" => $category[$ticket->Category],
+                    "subject" => $subject[$ticket->Subject],
+                    "description" => $ticket->Description,
+                    "priorityLevel" => [
+                        "value" => $ticket->PriorityLevel,
+                        "label" => $this->helper->ticketLevel()[$ticket->PriorityLevel]
+                    ],
+                    "status" => [
+                        "value" => $ticket->Status,
+                        "label" => $this->helper->ticketStatus()[$ticket->Status]
+                    ],
+                    "assignee" => !empty($ticket->Assignee) ? $user[$ticket->Assignee] : null,
+                    "reporter" => $user[$ticket->Reporter],
+                    "attach" => [
+                        0 => !empty($ticket->Attach0) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach0) : null,
+
+                        1 => !empty($ticket->Attach1) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach1) : null,
+
+                        2 => !empty($ticket->Attach2) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach2) : null,
+                    ]
+                ];
+            }
+        }
+        return $result;
+    }
+    
     function CreateTicket($data){
         $ticketNo = $this->where("Category", $data->category)->max('TicketNo');
         $ticketNo = !empty($ticketNo) ? $ticketNo+=1 : 1;
@@ -36,6 +125,8 @@ class TicketModel extends Model
             'Subject' => $data->subject,
             'Description' => $data->description,
             'Reporter' => Auth::user()->Id,
+            'Branch' => Auth::user()->Branch,
+            'Department' => Auth::user()->Department
         ];
         if(!empty($data->file('attachImage'))){
             $files = $data->file('attachImage');

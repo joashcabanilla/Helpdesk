@@ -259,9 +259,134 @@ const viewTicketTab = (data) => {
     let reporter = data.reporter;
     let level = data.priorityLevel;
     let assignee = data.assignee;
+    let levelColor = "";
+    let statusColor = "";
+    let api_token = localStorage.getItem("api_token");
+
     $(".ticketCategoryLabel").text(category.name +" - "+ subject.name);
     $(".tabTitle").text("VIEW TICKET: " + data.ticketNoLabel);
     $("#backBtn").html("<i class='fas fa-arrow-left'></i> Return to " + $(".tabLink.active").find("p").text().toLowerCase());
+
+    if(assignee != null){
+        let assigneeProfile = assignee.profile == null ? defaultProfile : assignee.profile;
+        let assigneeName = assignee.prefix +" "+ assignee.firstname +" "+ assignee.lastname;
+
+        $(".ticketAssignee").html("<img class='user-image img-circle elevation-1 m-auto navProfile' alt='user' title='"+assignee.department.name+" - "+assigneeName+"' src='"+assigneeProfile+"'/> "+assigneeName+"");
+    }else{
+        $(".ticketAssignee").addClass("text-muted").text("Unassigned");
+    }
+
+    let reporterProfile = reporter.profile == null ? defaultProfile : reporter.profile;
+    let reporterName = reporter.prefix +" "+ reporter.firstname +" "+ reporter.lastname;
+
+    $(".ticketReporter").html("<img class='user-image img-circle elevation-1 m-auto navProfile' alt='user' title='"+reporter.department.name+" - "+reporterName+"' src='"+reporterProfile+"'/> "+reporterName+"");
+
+    $(".ticketBranch").text(reporter.branch.name);
+    $(".ticketDepartment").text(reporter.department.name);
+
+    switch(level.value){
+        case 1:
+            levelColor = "#1e7e34";
+        break;
+
+        case 2:
+            levelColor = "#117a8b";
+        break;
+
+        case 3:
+            levelColor = "#d39e00";
+        break;
+
+        case 4:
+            levelColor = "#bd2130";
+        break;
+    }
+
+    $(".ticketLevel").html("<i class='fas fa-bars' style='color:"+levelColor+";'></i> <b>"+level.label+"</b>");
+    switch(data.status.value){
+        case 1:
+            statusColor = "bg-secondary";
+        break;
+
+        case 2:
+            statusColor = "bg-info";
+        break;
+
+        case 4:
+            statusColor = "bg-black";
+        break;
+
+        default:
+            statusColor = "bg-primary";
+        break;
+    }
+
+    $(".ticketStatus").addClass(statusColor).text(data.status.label);
+    $(".ticketCategorySubject").text(category.name +" - "+ subject.name);
+    let attachmentCtr = 0;
+
+    data.attach.forEach((image) => {
+        if(image != null){
+            attachmentCtr++;
+            let imageElement = $("<div class='col-lg-2 col-md-3 col-sm-12 p-1'><div class='img-fluid elevation-2 carouselImage'><img class='carouselSetImage' alt='attachment image'  width='100' height='100' src='"+image+"'/></div></div>");
+
+            let attachmentGallery = $("<div data-toggle='lightbox' data-gallery='hidden-images' data-remote='"+image+"'></div>");
+    
+            imageElement.find("img").click((e) => {
+                e.preventDefault();
+                $(attachmentGallery).ekkoLightbox();
+            });
+    
+            $(".attachmentContainer").append(imageElement).append(attachmentGallery);
+        }
+    });
+
+    $(".attachLabel").text("Attachments ("+attachmentCtr+")");
+
+    if(data.description != "" && data.description != null){
+        $(".ticketDescription").html(data.description);
+    }
+    const generateComment = () => {
+        let ticketComment = ajaxPostRequest(api_token, "api/v3/ticket/comment/"+data.id);
+        $(".commentContainer").empty();
+        ticketComment.done((res, textStatus, xhr) => {
+            if(xhr.status == 200 && res.length != 0){
+                $(".ticketCommentLabel").text("Comments ("+res.length+")");
+                res.forEach( commentData => {
+                    let userComment = commentData.user;
+                    let profile = userComment.profile != null ? userComment.profile : defaultProfile;
+                    let userName = userComment.prefix +" "+ userComment.firstname +" "+ userComment.lastname;
+                    let comment = $("<div class='col-12'><p class='mb-0 font-weight-bold ticketUserComment'></p><p class='mt-1 p-2 border border-gray rounded ticketComment'></p></div>");
+                    comment.find(".ticketUserComment").html("<img class='user-image img-circle elevation-1 m-auto navProfile' alt='user' src='"+profile+"'/> "+userName+" <small class='p-1 bg-light rounded'></small>");
+                    comment.find(".ticketComment").text(commentData.comment);
+                    comment.find("small").text(commentData.date);
+                    $(".commentContainer").append(comment);
+                });
+            }
+        });
+    }
+
+    generateComment();
+
+    $("#ticketCommentForm").submit((e) => {
+        e.preventDefault();
+        let formData = $(e.currentTarget).serializeArray();
+        formData.push({
+            name: "ticketId",
+            value: data.id
+        });
+        let writeComment = ajaxPostRequest(api_token, "api/v3/comment/create",formData);
+        writeComment.done((res, textStatus, xhr) => {
+            if(xhr.status == 200){
+                generateComment();
+                $("#commentInput").val("");
+                notifToast("Write Comment", res,"success");
+            }else{
+                notifToast("Write Comment", res,"error");
+            }
+        });
+    });
+
     $("#backBtn").click((e) => {
         e.preventDefault();
         $(".tabLink.active").trigger("click");

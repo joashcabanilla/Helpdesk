@@ -116,7 +116,7 @@
                     </li>
 
                     <!-- Notifications Dropdown Menu -->
-                    <li class="nav-item dropdown">
+                    {{-- <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown">
                             <i class="far fa-bell fa-lg"></i>
                             <span class="badge badge-warning navbar-badge">5</span>
@@ -124,7 +124,7 @@
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <span class="dropdown-item dropdown-header">Notifications</span>
                         </div>
-                    </li>
+                    </li> --}}
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown">

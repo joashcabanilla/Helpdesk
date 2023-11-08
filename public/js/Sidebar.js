@@ -22,7 +22,11 @@ $(".tabLink").click((e) => {
 $("#navSearchTicketForm").submit((e) => {
     e.preventDefault();
     let api_token = localStorage.getItem("api_token");
-    let getTicket = ajaxPostRequest(api_token, "api/v3/ticket/get/0",{ticketNo: $("#navSearchTicket").val()});
+    let data = {
+        ticketNo: $("#navSearchTicket").val(),
+        allStatus: true
+    };
+    let getTicket = ajaxPostRequest(api_token, "api/v3/ticket/get/0", data);
     let url = $(e.currentTarget).find("button").data("url");
     
     getTicket.done((res, textStatus, xhr) => {

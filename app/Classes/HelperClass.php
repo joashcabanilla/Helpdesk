@@ -19,7 +19,8 @@ class HelperClass
             "1" => "To Do",
             "2" => "In Progress",
             "3" => "Done",
-            "4" => "Backlog"
+            "4" => "Backlog",
+            "5" => "Closed Ticket"
         ];
     }
 

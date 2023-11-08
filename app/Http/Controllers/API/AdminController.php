@@ -13,11 +13,12 @@ use App\Models\BranchModel;
 use App\Models\DepartmentModel;
 use App\Models\SubjectModel;
 use App\Models\TicketModel;
+use App\Models\CommentModel;
 use App\Models\User;
 
 class AdminController extends Controller
 {
-    protected $ticketCategoryModel, $branchModel, $departmentModel, $subjectModel, $ticketModel, $helper, $userModel;
+    protected $ticketCategoryModel, $branchModel, $departmentModel, $subjectModel, $ticketModel, $helper, $userModel, $commentModel;
 
     public function __construct()
     {
@@ -27,6 +28,7 @@ class AdminController extends Controller
         $this->subjectModel = new SubjectModel();   
         $this->ticketModel = new TicketModel();
         $this->helper = new HelperClass();
+        $this->commentModel = new CommentModel(); 
         $this->userModel = new User();
     }
 
@@ -79,5 +81,21 @@ class AdminController extends Controller
             return response()->json($result,200);
         }
         return response('No Data Found',202);
+    }
+
+    function GetTicketComment(Request $request, $TicketId){
+        $result = $this->commentModel->GetTicketComment($TicketId);
+        if(!empty($result)){
+            return response()->json($result,200);
+        }
+        return response('No Data Found',202);
+    }
+
+    function CreateComment(Request $request){
+        $result = $this->commentModel->CreateComment($request);
+        if($result){
+            return response("New comment added.",200);
+        }
+        return response('Invalid Comment.',202);
     }
 }

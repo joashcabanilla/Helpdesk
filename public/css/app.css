@@ -82,8 +82,9 @@ textarea{
     border-top: 3px solid #2b7d62;
 }
 
-.card-primary:not(.card-outline)>.card-header {
-    background:  #2b7d62;
+.card-primary:not(.card-outline)>.card-header,
+.bg-primary {
+    background:  #2b7d62 !important;
 }
 
 .navProfile{
@@ -184,7 +185,8 @@ textarea{
 
 .ticketDetailContainer{
     height: 450px !important; 
-    overflow: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
 }
 
 .ticketDetailContainer::-webkit-scrollbar{

@@ -52,6 +52,10 @@ class TicketModel extends Model
         $user = $this->userModel->getAllUser();
         $ticketData = $this;
 
+        if(isset($param['allStatus']) && !$param['allStatus']){
+            $ticketData = $ticketData->whereNotIn("Status",[4,5]);
+        }
+        
         if(isset($param['ticketNo']) && !empty($param['ticketNo'])){
             $ticketNo = explode("-",$param['ticketNo']);
             if(count($ticketNo) == 2){
@@ -104,31 +108,33 @@ class TicketModel extends Model
             foreach($ticketData as $ticket){
                 $ticketNo = $ticket->TicketNo <= 999 ? sprintf('%03d', $ticket->TicketNo) : $ticket->TicketNo;
                 $ticketNoLabel = $category[$ticket->Category]["code"]."-". $ticketNo;
-                $result[] = [
-                    "id" => $ticket->Id,
-                    "ticketNo" => $ticket->TicketNo,
-                    "ticketNoLabel" => $ticketNoLabel,
-                    "category" => $category[$ticket->Category],
-                    "subject" => $subject[$ticket->Subject],
-                    "description" => $ticket->Description,
-                    "priorityLevel" => [
-                        "value" => $ticket->PriorityLevel,
-                        "label" => $this->helper->ticketLevel()[$ticket->PriorityLevel]
-                    ],
-                    "status" => [
-                        "value" => $ticket->Status,
-                        "label" => $this->helper->ticketStatus()[$ticket->Status]
-                    ],
-                    "assignee" => !empty($ticket->Assignee) ? $user[$ticket->Assignee] : null,
-                    "reporter" => $user[$ticket->Reporter],
-                    "attach" => [
-                        0 => !empty($ticket->Attach0) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach0) : null,
-
-                        1 => !empty($ticket->Attach1) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach1) : null,
-
-                        2 => !empty($ticket->Attach2) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach2) : null,
-                    ]
-                ];
+                if(isset($user[$ticket->Reporter])){
+                    $result[] = [
+                        "id" => $ticket->Id,
+                        "ticketNo" => $ticket->TicketNo,
+                        "ticketNoLabel" => $ticketNoLabel,
+                        "category" => $category[$ticket->Category],
+                        "subject" => $subject[$ticket->Subject],
+                        "description" => $ticket->Description,
+                        "priorityLevel" => [
+                            "value" => $ticket->PriorityLevel,
+                            "label" => $this->helper->ticketLevel()[$ticket->PriorityLevel]
+                        ],
+                        "status" => [
+                            "value" => $ticket->Status,
+                            "label" => $this->helper->ticketStatus()[$ticket->Status]
+                        ],
+                        "assignee" => !empty($ticket->Assignee) && isset($user[$ticket->Assignee]) ? $user[$ticket->Assignee] : null,
+                        "reporter" => $user[$ticket->Reporter],
+                        "attach" => [
+                            0 => !empty($ticket->Attach0) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach0) : null,
+    
+                            1 => !empty($ticket->Attach1) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach1) : null,
+    
+                            2 => !empty($ticket->Attach2) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach2) : null,
+                        ]
+                    ];
+                }
             }
         }
         return $result;

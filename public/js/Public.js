@@ -322,6 +322,7 @@ const viewTicketTab = (data) => {
     }
 
     $(".ticketStatus").addClass(statusColor).text(data.status.label);
+    $(".ticketDateCreated").text(data.date);
     $(".ticketCategorySubject").text(category.name +" - "+ subject.name);
     let attachmentCtr = 0;
 
@@ -452,6 +453,17 @@ const generateTicketComponent = (filter = {}) => {
                     $(".content").load($(e.currentTarget).attr("href"), ( res, status, xhr) => {
                         if(status == "success"){
                             viewTicketTab(data);
+                        }else{
+                            notifToast("Admin Page", "PAGE NOT FOUND","error");
+                        }
+                    });
+                });
+
+                ticket.find(".editTicket").click((e) => {
+                    e.preventDefault();
+                    $(".content").load($(e.currentTarget).attr("href"), ( res, status, xhr) => {
+                        if(status == "success"){
+                            newticketTab(data);
                         }else{
                             notifToast("Admin Page", "PAGE NOT FOUND","error");
                         }

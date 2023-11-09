@@ -1,4 +1,4 @@
-const changeCategory = (subjectElement, data) => {
+const changeCategory = (subjectElement, data, editTicketValue = 0) => {
     $(subjectElement).val("");
     $(subjectElement).empty().trigger('change');
     
@@ -16,52 +16,36 @@ const changeCategory = (subjectElement, data) => {
             }
             select2GenerateData(data,subjectElement, "#select2-subject-container");
             $(subjectElement).attr("disabled",false);
+            if(editTicketValue != 0){
+                $(subjectElement).val(editTicketValue).trigger("change");
+            }
         }else{
             $(subjectElement).attr("disabled",true);
         }
     });
 }
 
-const newticketTab = () => {
-    $(".tabTitle").text("NEW TICKET");
-    $("#backBtn").html("<i class='fas fa-arrow-left'></i> Return to ticket board");
-    $("#backBtn").attr("href",routeTicketBoard);
-
-    $("#backBtn").click((e) => {
-        e.preventDefault();
-        let url = $(e.currentTarget).attr("href");
-        $(".content").load(url, ( res, status, xhr) => {
-            if(status == "success"){
-                ticketBoardTab();
-            }else{
-                notifToast("Admin Page", "PAGE NOT FOUND","error");
-            }
-        });
+const newticketTab = (data = {}) => {
+    let tabTitle = "NEW TICKET";
+    $('.select2bs4').select2({
+        theme: 'bootstrap4'
     });
-
     let categoryDataRequest = ajaxPostRequest(localStorage.getItem("api_token"),"api/v3/get/data/category/0");
     categoryDataRequest.done((res, textStatus, xhr) => {
         if(xhr.status == 200){
             select2GenerateData(res,"#category","#select2-category-container");
+            Object.keys(data).length != 0 ? $("#category").val(data.category.value).trigger("change") : null;
+
         }else{
             notifToast("Ticket Board Tab", "DATA ERROR","error");
         }
     });
-
-    let subjectDataRequest = ajaxPostRequest(localStorage.getItem("api_token"),"api/v3/get/data/subject/0");
-    subjectDataRequest.done((res, textStatus, xhr) => {
-        if(xhr.status == 200){
-            select2GenerateData(res,"#subject","#select2-subject-container");
-        }else{
-            notifToast("Ticket Board Tab", "DATA ERROR","error");
-        }
-    });
-
+    
     $("#category").change((e) => {
-        let data = {
+        let catData = {
             category: [$(e.currentTarget).val()]
         };
-        changeCategory("#subject",data);
+        Object.keys(data).length != 0 ? changeCategory("#subject",catData, data.subject.value) : changeCategory("#subject",catData);
     });
     
     $("#attachAdd").click((e) => {
@@ -99,7 +83,7 @@ const newticketTab = () => {
 
                             reader.onload = (data) => {
 
-                                let filenameElement = $("<a class='btn btn-sm btn-light attachFilename'>"+file.name+" <i class='far fa-times-circle text-danger'></i></a>");
+                                let filenameElement = $("<a class='btn btn-sm btn-light mr-1 attachFilename'>"+file.name+" <i class='far fa-times-circle text-danger'></i></a>");
 
                                 let imageElement = $("<div class='col-lg-2 col-md-3 col-sm-12 p-1'><div class='img-fluid elevation-2 carouselImage'><img class='carouselSetImage' alt='attachment image'  width='100' height='100' src='"+data.target.result+"'/></div></div>");
                                 
@@ -171,6 +155,69 @@ const newticketTab = () => {
         ]
     });
 
+    if(Object.keys(data).length != 0){
+        tabTitle = "EDIT TICKET: " + data.ticketNoLabel;
+        $("#createTicketBtn").text("Save Ticket");
+
+        data.attach.forEach((image,index) => {
+            if(image != null){
+                let attachmentInput = $("<input type='file' name='attachImage[]' accept='image/jpeg, image/png, image/jpg'>");
+                let image64 = image.replace("data:image/jpeg;base64,","");
+                let byteCharacters = atob(image64);
+                let byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                let byteArray = new Uint8Array(byteNumbers);
+                let blob = new Blob([byteArray], { type: "application/octet-stream" });
+                index++;
+                let fileName = "Attachment" + index;
+                let file = new File([blob], fileName);
+                let fileList = new DataTransfer();
+                fileList.items.add(file);
+                $(attachmentInput)[0].files = fileList.files;
+
+                let filenameElement = $("<a class='btn btn-sm btn-light mr-1 attachFilename'>"+fileName+" <i class='far fa-times-circle text-danger'></i></a>");
+
+                let imageElement = $("<div class='col-lg-2 col-md-3 col-sm-12 p-1'><div class='img-fluid elevation-2 carouselImage'><img class='carouselSetImage' alt='attachment image'  width='100' height='100' src='"+image+"'/></div></div>");
+                                
+                let attachmentGallery = $("<div data-toggle='lightbox' data-gallery='hidden-images' data-remote='"+image+"' data-title='"+fileName+"'></div>");
+                
+                if(index <= 1){
+                    $('.attachLabel').after(filenameElement);
+                }else{
+                    $('.attachFilename:last').after(filenameElement);
+                }
+                filenameElement.click((e) => {
+                    e.preventDefault();
+                    attachmentInput.remove();
+                    imageElement.remove();
+                    attachmentGallery.remove();
+                    $(e.currentTarget).remove();
+                    $(".attachLabel").text("Attachments ("+$(".attachmentInput").children().length+")");
+                });
+
+                imageElement.find("img").click((e) => {
+                    e.preventDefault();
+                    $(attachmentGallery).ekkoLightbox();
+                });
+                $(".attachmentInput").append(attachmentInput);
+                $(".attachmentContainer").append(imageElement).append(attachmentGallery);
+                $(".attachLabel").text("Attachments ("+$(".attachmentInput").children().length+")");
+            }
+        });
+
+        $("#description").summernote("code", data.description);
+    }
+
+    $(".tabTitle").text(tabTitle);
+    $("#backBtn").html("<i class='fas fa-arrow-left'></i> Return to " + $(".tabLink.active").find("p").text().toLowerCase());
+
+    $("#backBtn").click((e) => {
+        e.preventDefault();
+        $(".tabLink.active").trigger("click");
+    });
+
     $("#newTicketform").submit((e) => {
         e.preventDefault();
         let formData = new FormData(e.currentTarget);
@@ -184,17 +231,29 @@ const newticketTab = () => {
         }
         else{
             formData.set("description",$('#description').summernote('code'));
-            let createTicket = ajaxPostFile(localStorage.getItem("api_token"),"api/v3/ticket/create",formData);
-            createTicket.done((res, textStatus, xhr) => {
-                if(xhr.status == 200){
-                    notifToast("New Ticket",res,"success");
-                }else{
-                    notifToast("New Ticket",res,"error");
-                }
-                $("#category").val("").trigger("change").focus();
-                $('#description').summernote('code', '');
-                $("#attachDelete").trigger("click");
-            });
+            if(Object.keys(data).length != 0){
+                formData.set("ticketId", data.id);
+                let updateTicket = ajaxPostFile(localStorage.getItem("api_token"),"api/v3/ticket/update",formData);
+                updateTicket.done((res, textStatus, xhr) => {
+                    if(xhr.status == 200){
+                        notifToast("Edit Ticket",res,"success");
+                    }else{
+                        notifToast("Edit Ticket",res,"error");
+                    }
+                });
+            }else{
+                let createTicket = ajaxPostFile(localStorage.getItem("api_token"),"api/v3/ticket/create",formData);
+                createTicket.done((res, textStatus, xhr) => {
+                    if(xhr.status == 200){
+                        notifToast("New Ticket",res,"success");
+                    }else{
+                        notifToast("New Ticket",res,"error");
+                    }
+                    $("#category").val("").trigger("change").focus();
+                    $('#description').summernote('code', '');
+                    $("#attachDelete").trigger("click");
+                });
+            }
         }
     });
 }

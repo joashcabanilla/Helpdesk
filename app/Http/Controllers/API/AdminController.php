@@ -75,6 +75,14 @@ class AdminController extends Controller
         return response('Database Error',500);
     }
 
+    function UpdateTicket(Request $request){
+        $result = $this->ticketModel->UpdateTicket($request);
+        if($result){
+            return response("Ticket Successfully Updated.",200);
+        }
+        return response('Database Error',500);
+    }
+
     function GetTicketData(Request $request, $id){
         $result = $this->ticketModel->getTicket($id, $request->all());
         if(!empty($result)){

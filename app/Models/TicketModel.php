@@ -132,7 +132,8 @@ class TicketModel extends Model
                             1 => !empty($ticket->Attach1) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach1) : null,
     
                             2 => !empty($ticket->Attach2) ? "data:image/jpeg;base64,".base64_encode($ticket->Attach2) : null,
-                        ]
+                        ],
+                        "date" => date("F j, Y", strtotime($ticket->created_at)) ." at ". date("g:i A", strtotime($ticket->created_at))
                     ];
                 }
             }
@@ -160,5 +161,36 @@ class TicketModel extends Model
         }
 
         return $this->create($ticket);
+    }
+
+    function UpdateTicket($data){
+        $ticket = [
+            'Category' => $data->category,
+            'Subject' => $data->subject,
+            'Description' => $data->description,
+        ];
+
+        if(!empty($data->file('attachImage'))){
+            $files = $data->file('attachImage');
+            foreach($files as $index => $file){
+                $ticket["Attach" . $index] = file_get_contents($file->getRealPath());
+            }
+        }
+
+        $attachment = ["Attach0","Attach1","Attach2"];
+        foreach($attachment as $attach){
+            if(!isset($ticket[$attach])){
+                $ticket[$attach] = null;
+            }
+        }
+
+        $ticketData = $this->find($data->ticketId);
+        if($ticketData->Category != $data->category){
+            $ticketNo = $this->where("Category", $data->category)->max('TicketNo');
+            $ticketNo = !empty($ticketNo) ? $ticketNo+=1 : 1;
+            $ticket["TicketNo"] = $ticketNo;
+        }
+
+        return $this->find($data->ticketId)->update($ticket);
     }
 }

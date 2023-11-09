@@ -26,7 +26,8 @@ class CategoryModel extends Model
         foreach($this->get() as $data){
             $result[$data->Id] = [
                 "code" => $data->Code,
-                "name" => $data->Name
+                "name" => $data->Name,
+                "value" => $data->Id
             ];
         }
         return $result;

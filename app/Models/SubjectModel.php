@@ -26,7 +26,8 @@ class SubjectModel extends Model
         foreach($this->get() as $data){
             $result[$data->Id] = [
                 "category" => $data->Category,
-                "name" => $data->Name
+                "name" => $data->Name,
+                "value" => $data->Id
             ];
         }
         return $result;

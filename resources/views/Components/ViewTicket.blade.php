@@ -96,6 +96,12 @@
                                 <div class="col-6">
                                     <p class="rounded text-center font-weight-bold p-1 ticketStatus">In Progress</p>
                                 </div>
+                                <div class="col-6">
+                                    <p class="font-weight-bold">Date Created</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="ticketDateCreated text-monospace">Date Created</p>
+                                </div>
                             </div>
                         </div>
                     </div>

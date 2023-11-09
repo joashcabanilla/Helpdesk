@@ -9,7 +9,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu dropdown-menu-right ticketMenuBtn">
                       <a class="dropdown-item viewTicket" href="{{route("admin.viewticket")}}"><i class="fas fa-eye"></i> View</a>
-                      <a class="dropdown-item editTicket" href=""><i class="fas fa-edit"></i> Edit</a>
+                      <a class="dropdown-item editTicket" href="{{route("admin.newticket")}}"><i class="fas fa-edit"></i> Edit</a>
                       <a class="dropdown-item deleteTicket" href=""><i class="fas fa-trash"></i> Delete</a>
                     </div>
                   </div>

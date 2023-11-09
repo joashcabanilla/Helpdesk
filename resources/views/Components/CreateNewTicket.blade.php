@@ -3,7 +3,6 @@
 
         <div class="row">
             <div class="col-12">
-                <h4 class="font-weight-bold float-left ticketNoLabel"></h4>
                 <a class="btn btn-primary btn-sm font-weight-bold float-right" id="backBtn"></a>
             </div>
         </div>
@@ -54,7 +53,7 @@
 
             <div class="row">
                 <div class="col-12 text-center">
-                    <button class="btn btn-lg btn-primary font-weight-bold" type="submit">Create Ticket</button>
+                    <button class="btn btn-lg btn-primary font-weight-bold" type="submit" id="createTicketBtn">Create Ticket</button>
                 </div>
             </div>
         </form>

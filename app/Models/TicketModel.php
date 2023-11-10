@@ -149,6 +149,7 @@ class TicketModel extends Model
             'Category' => $data->category,
             'Subject' => $data->subject,
             'Description' => $data->description,
+            'PriorityLevel' => $data->level,
             'Reporter' => Auth::user()->Id,
             'Branch' => Auth::user()->Branch,
             'Department' => Auth::user()->Department
@@ -168,6 +169,7 @@ class TicketModel extends Model
             'Category' => $data->category,
             'Subject' => $data->subject,
             'Description' => $data->description,
+            'PriorityLevel' => $data->level
         ];
 
         if(!empty($data->file('attachImage'))){

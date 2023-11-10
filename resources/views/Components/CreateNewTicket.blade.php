@@ -11,7 +11,7 @@
             <div class="row attachmentInput d-none"></div>
             
             <div class="row mt-3">
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="form-group">
                         <label for="category">Concern Category</label>
                         <select class="form-control select2bs4" data-placeholder="Select Category" id="category" name="category" style="width: 100%;" required>
@@ -20,11 +20,23 @@
                     </div>
                 </div>
     
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="form-group">
                         <label for="subject">Subject</label>
                         <select class="form-control select2bs4" data-placeholder="Select Subject" id="subject" name="subject" disabled style="width: 100%;" required> 
                             <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label for="priorityLevel">Priority Level</label>
+                        <select class="form-control select2bs4" id="priorityLevel" name="level" style="width: 100%;" data-placeholder="Select Level" required>  
+                            <option value=""></option>
+                            <option value="1">Low</option>
+                            <option value="2">Medium</option>
+                            <option value="3">High</option>
+                            <option value="4">Urgent</option>
                         </select>
                     </div>
                 </div>

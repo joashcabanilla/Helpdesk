@@ -34,8 +34,10 @@ const newticketTab = (data = {}) => {
     categoryDataRequest.done((res, textStatus, xhr) => {
         if(xhr.status == 200){
             select2GenerateData(res,"#category","#select2-category-container");
-            Object.keys(data).length != 0 ? $("#category").val(data.category.value).trigger("change") : null;
-
+            if(Object.keys(data).length != 0){
+                $("#category").val(data.category.value).trigger("change");
+                $("#priorityLevel").val(data.priorityLevel.value).trigger("change");
+            }
         }else{
             notifToast("Ticket Board Tab", "DATA ERROR","error");
         }
@@ -249,6 +251,7 @@ const newticketTab = (data = {}) => {
                     }else{
                         notifToast("New Ticket",res,"error");
                     }
+                    $("#priorityLevel").val("").trigger("change");
                     $("#category").val("").trigger("change").focus();
                     $('#description').summernote('code', '');
                     $("#attachDelete").trigger("click");

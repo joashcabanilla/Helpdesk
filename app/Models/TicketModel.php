@@ -193,4 +193,8 @@ class TicketModel extends Model
 
         return $this->find($data->ticketId)->update($ticket);
     }
+
+    function DeleteTicket($data){
+        return $this->find($data->id)->delete();
+    }
 }

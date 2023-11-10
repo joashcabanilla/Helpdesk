@@ -83,6 +83,14 @@ class AdminController extends Controller
         return response('Database Error',500);
     }
 
+    function DeleteTicket(Request $request){
+        $result = $this->ticketModel->DeleteTicket($request);
+        if($result){
+            return response("Ticket Successfully Deleted.",200);
+        }
+        return response('Database Error',500);
+    }
+
     function GetTicketData(Request $request, $id){
         $result = $this->ticketModel->getTicket($id, $request->all());
         if(!empty($result)){

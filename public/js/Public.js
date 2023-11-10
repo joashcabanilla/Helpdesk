@@ -392,7 +392,32 @@ const viewTicketTab = (data) => {
         e.preventDefault();
         $(".tabLink.active").trigger("click");
     });
-} 
+}
+
+const deleteTicket = (data) => {
+    return Swal.fire({
+        icon: "question",
+        title: "Delete Ticket",
+        text: "Are you sure you want to delete " + data.ticketNoLabel + " ticket?",
+        confirmButtonText: 'Delete',
+        showCancelButton: true,
+        willOpen: (e) => {
+            $(".swal2-actions").addClass("w-100").css("justify-content","flex-end");
+        }
+    }).then((result) => {
+        if(result.isConfirmed){
+            let api_token = localStorage.getItem("api_token");
+            let deletePost = ajaxPostRequest(api_token, "api/v3/ticket/delete", {id: data.id});
+            return deletePost.done((res, textStatus, xhr) => {
+                if(xhr.status == 200){
+                    notifToast("Ticket", res,"success");
+                }else{
+                    notifToast("Ticket", res,"error");
+                }
+            });
+        }
+    });
+}
 
 const generateTicketComponent = (filter = {}) => {
     let api_token = localStorage.getItem("api_token");
@@ -466,6 +491,26 @@ const generateTicketComponent = (filter = {}) => {
                             newticketTab(data);
                         }else{
                             notifToast("Admin Page", "PAGE NOT FOUND","error");
+                        }
+                    });
+                });
+
+                ticket.find(".deleteTicket").click((e) => {
+                    e.preventDefault();
+                    let ticketDeleted = deleteTicket(data);
+                    ticketDeleted.then((result) => {
+                        let newfilter = {
+                            branch: $("#branchFilter").val(),
+                            department: $("#departmentFilter").val(),
+                            category: $("#categoryFilter").val(),
+                            subject: $("#subjectFilter").val(),
+                            level: $("#levelFilter").val(),
+                            datefrom: $("#datefromFilter").val(),
+                            dateto: $("#datetoFilter").val(),
+                        };
+
+                        if(result == "Ticket Successfully Deleted."){
+                            generateTicketComponent(newfilter);
                         }
                     });
                 });

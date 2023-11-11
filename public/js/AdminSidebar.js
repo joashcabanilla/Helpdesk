@@ -269,12 +269,53 @@ const ticketBoardTab = () => {
     $('.select2bs4').select2({
         theme: 'bootstrap4'
     });
+
     let api_token = localStorage.getItem("api_token");
     let categoryDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/category/0");
     let branchDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/branch/0");
     let departmentDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/department/0");
-    generateTicketComponent();
 
+    $(".todoContainer").sortable({
+        connectWith: ".inprogressContainer",
+        placeholder: 'sort-highlight-todo',
+        forcePlaceholderSize: true,
+        receive: function( event, ui ) {
+            updateTicketStatus({
+                id: $(ui.item).find(".ticketId").val(),
+                status: 1,
+                ticketNoLabel: $(ui.item).find(".ticketNoLabel").text()
+            });
+        }
+    }).disableSelection();
+
+    $(".inprogressContainer").sortable({
+        connectWith: ".todoContainer,.doneContainer",
+        placeholder: 'sort-highlight-progress',
+        forcePlaceholderSize: true,
+        receive: function( event, ui ) {
+            updateTicketStatus({
+                id: $(ui.item).find(".ticketId").val(),
+                status: 2,
+                ticketNoLabel: $(ui.item).find(".ticketNoLabel").text()
+            });
+        }
+    }).disableSelection();
+
+    $(".doneContainer").sortable({
+        connectWith: ".inprogressContainer",
+        placeholder: 'sort-highlight-done',
+        forcePlaceholderSize: true,
+        receive: function( event, ui ) {
+            updateTicketStatus({
+                id: $(ui.item).find(".ticketId").val(),
+                status: 3,
+                ticketNoLabel: $(ui.item).find(".ticketNoLabel").text()
+            });
+        }
+    }).disableSelection();
+
+    generateTicketComponent();
+    
     categoryDataRequest.done((res, textStatus, xhr) => {
         if(xhr.status == 200){
             select2GenerateData(res,"#categoryFilter");

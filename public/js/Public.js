@@ -419,6 +419,18 @@ const deleteTicket = (data) => {
     });
 }
 
+const updateTicketStatus = (data) => {
+    let api_token = localStorage.getItem("api_token");
+    let updateTicket = ajaxPostRequest(api_token, "api/v3/ticket/update-status", data);
+    updateTicket.done((res, textStatus, xhr) => {
+        if(xhr.status == 200){
+            notifToast("Ticket", res,"success");
+        }else{
+            notifToast("Ticket", res,"error");
+        }
+    });
+}
+
 const generateTicketComponent = (filter = {}) => {
     let api_token = localStorage.getItem("api_token");
     let getTicket = ajaxPostRequest(api_token, "api/v3/ticket/get/0", filter);
@@ -435,6 +447,7 @@ const generateTicketComponent = (filter = {}) => {
                 let levelColor = "";
         
                 ticket.removeClass("d-none ticketContainer");
+                ticket.find(".ticketId").val(data.id);
                 ticket.find(".ticketNoLabel").text(data.ticketNoLabel);
                 ticket.find(".ticketCategorySubject").text(category.name +" - "+ subject.name);
                 ticket.find(".ticketReporter").text(reporter.prefix +" "+ reporter.firstname +" "+ reporter.lastname);

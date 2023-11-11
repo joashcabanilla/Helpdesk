@@ -114,4 +114,12 @@ class AdminController extends Controller
         }
         return response('Invalid Comment.',202);
     }
+
+    function UpdateTicketStatus(Request $request){
+        $result = $this->ticketModel->UpdateTicketStatus($request);
+        if($result){
+            return response("Ticket ".$request->ticketNoLabel." status updated.",200);
+        }
+        return response("Update ticket ".$request->ticketNoLabel." status failed.",202);
+    }
 }

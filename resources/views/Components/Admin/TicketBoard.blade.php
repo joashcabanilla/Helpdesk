@@ -3,6 +3,7 @@
     <div class="callout p-2 m-1 mb-2 d-none ticketContainer">
         <div class="row">
             <div class="col-12">
+                <input type="hidden" name="ticketId" class="ticketId" />
                 <p class="font-weight-bold float-left ticketNoLabel">ticket No Label</p>
                 <div class="btn-group float-right">
                     <button type="button" class="btn btn-sm btn-light" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i>

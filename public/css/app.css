@@ -155,6 +155,7 @@ textarea{
 .doneContainer{
     height: 500px !important; 
     overflow: auto !important;
+    cursor: pointer !important;
 }
 .todoContainer::-webkit-scrollbar,
 .inprogressContainer::-webkit-scrollbar,
@@ -200,6 +201,24 @@ textarea{
 .ticketDetailContainer::-webkit-scrollbar-thumb {
     background-color: #6c757d;
     border-radius: 10px;
+}
+
+.sort-highlight-todo {
+    background: #6c757d;
+    border: 2px dashed #dee2e6;
+    margin-bottom: 10px;
+}
+
+.sort-highlight-progress {
+    background: #17a2b8;
+    border: 2px dashed #dee2e6;
+    margin-bottom: 10px;
+}
+
+.sort-highlight-done {
+    background: #2b7d62;
+    border: 2px dashed #dee2e6;
+    margin-bottom: 10px;
 }
 
 @media (min-width: 320px) {}

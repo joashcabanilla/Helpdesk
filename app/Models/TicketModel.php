@@ -32,7 +32,7 @@ class TicketModel extends Model
         'Attach2'
     ];
 
-    protected $ticketCategoryModel, $branchModel, $departmentModel, $subjectModel, $helper, $userModel;
+    protected $ticketCategoryModel, $branchModel, $departmentModel, $subjectModel, $helper, $userModel, $ticketHistoryModel;
 
     public function __construct(array $attributes = [])
     {
@@ -43,6 +43,7 @@ class TicketModel extends Model
         $this->subjectModel = new SubjectModel();   
         $this->helper = new HelperClass();
         $this->userModel = new User();
+        $this->ticketHistoryModel = new TicketHistoryModel();
     }
 
     function getTicket($id, $param){
@@ -161,7 +162,9 @@ class TicketModel extends Model
             }
         }
 
-        return $this->create($ticket);
+        $ticket = $this->create($ticket);
+        $this->ticketHistoryModel->CreateHistory($ticket->Id, 1, $ticket->Reporter);
+        return $ticket;
     }
 
     function UpdateTicket($data){
@@ -198,5 +201,10 @@ class TicketModel extends Model
 
     function DeleteTicket($data){
         return $this->find($data->id)->delete();
+    }
+
+    function UpdateTicketStatus($data){
+        $this->ticketHistoryModel->CreateHistory($data->id, $data->status, Auth::user()->Id);
+       return $this->find($data->id)->update(["Status" => $data->status]);
     }
 }

@@ -422,7 +422,7 @@ const deleteTicket = (data) => {
 const updateTicketStatus = (data) => {
     let api_token = localStorage.getItem("api_token");
     let updateTicket = ajaxPostRequest(api_token, "api/v3/ticket/update-status", data);
-    updateTicket.done((res, textStatus, xhr) => {
+    return updateTicket.done((res, textStatus, xhr) => {
         if(xhr.status == 200){
             notifToast("Ticket", res,"success");
         }else{
@@ -546,6 +546,17 @@ const generateTicketComponent = (filter = {}) => {
             notifToast("Ticket Board Tab", res,"warning");
         }
     });
+}
+
+const errorDataTable = (table) => {
+    Swal.fire({
+        icon: 'error',
+        title: table,
+        text: 'Something went wrong! Please wait for 1 minute, then reload the page.',
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        allowEnterKey: false
+    })
 }
 
 $(document).ready((e) => {

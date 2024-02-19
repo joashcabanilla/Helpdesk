@@ -50,5 +50,6 @@ Route::prefix('v3')->middleware(['auth:sanctum','abilities:admin'])->group(
         Route::post('/ticket/delete', [AdminController::class, 'DeleteTicket']);
         Route::post('/ticket/comment/{TicketId}', [AdminController::class, 'GetTicketComment']);
         Route::post('/comment/create', [AdminController::class, 'CreateComment']);
+        Route::post('/ticket/datatable', [AdminController::class, 'TicketTable']);
     }
 );

@@ -33,22 +33,34 @@ textarea{
 }
 
 .callout a,
-.callout p{
+.callout p,
+.ticketMenuBtn a{
     font-size: 1rem !important;
     color: #000000 !important;
 
 }
-.callout a{
+
+.callout a,
+.ticketMenuBtn a{
     text-decoration: none;
     font-weight: 500 !important;
 }
-.callout a:active{
+
+.callout a:active,
+.ticketMenuBtn a:active{
     font-weight: 600 !important;
     color: #ffffffff !important;
 }
-.callout a:hover{
+
+.callout a:hover,
+.ticketMenuBtn a:hover{
     font-weight: 600 !important;
 }
+
+.ticketMenuBtn a{
+    cursor: pointer !important;
+}
+
 .hide-element {
     display: none;
 }
@@ -87,6 +99,13 @@ textarea{
     background:  #2b7d62 !important;
 }
 
+.text-primary{
+    color: #2b7d62 !important; 
+}
+
+.border-primary{
+    border-color: #2b7d62 !important; 
+}
 .navProfile{
     width: 1.8rem !important; 
     height: 1.8rem !important;
@@ -219,6 +238,20 @@ textarea{
     background: #2b7d62;
     border: 2px dashed #dee2e6;
     margin-bottom: 10px;
+}
+
+.dataTable thead{
+    background: #2b7d62 !important;
+    color: #ffffffff !important;
+}
+
+.dataTable thead th{
+    font-size: 1.1rem !important;
+    text-align: center !important;
+}
+
+.dataTable{
+    width: 100% !important;
 }
 
 @media (min-width: 320px) {}

@@ -105,7 +105,7 @@
                         <!-- SEARCH FORM -->
                         <form class="form-inline ml-0 ml-md-3 mr-3" id="navSearchTicketForm" method="POST">
                             <div class="input-group input-group-lg">
-                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="navsearchticket" id="navSearchTicket">
+                                <input class="form-control form-control-navbar" type="search" placeholder="Search Ticket" aria-label="Search" name="navsearchticket" id="navSearchTicket">
                                 <div class="input-group-append">
                                     <button class="btn btn-navbar" type="submit" data-url="{{route("admin.viewticket")}}">
                                         <i class="fas fa-search"></i>

@@ -25,6 +25,62 @@ const changeCategory = (subjectElement, data, editTicketValue = 0) => {
     });
 }
 
+const ticketFilterComponent = (dataTable = false) => {
+    let api_token = localStorage.getItem("api_token");
+    let categoryDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/category/0");
+    let branchDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/branch/0");
+    let departmentDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/department/0");
+
+    categoryDataRequest.done((res, textStatus, xhr) => {
+        if(xhr.status == 200){
+            select2GenerateData(res,"#categoryFilter");
+        }else{
+            notifToast("Ticket Board Tab", "DATA ERROR","error");
+        }
+    });
+
+    branchDataRequest.done((res, textStatus, xhr) => {
+        if(xhr.status == 200){
+            select2GenerateData(res,"#branchFilter");
+        }else{
+            notifToast("Ticket Board Tab", "DATA ERROR","error");
+        }
+    });
+
+    departmentDataRequest.done((res, textStatus, xhr) => {
+        if(xhr.status == 200){
+            select2GenerateData(res,"#departmentFilter");
+        }else{
+            notifToast("Ticket Board Tab", "DATA ERROR","error");
+        }
+    });
+
+    $("#categoryFilter").change((e) => {
+        let data = {
+            category: $(e.currentTarget).val()
+        };
+        changeCategory("#subjectFilter",data);
+    });
+
+    $("#newTicketBtn").click((e) => {
+        let url = $(e.currentTarget).data("url");
+        $(".content").load(url, ( res, status, xhr) => {
+            if(status == "success"){
+                newticketTab();
+            }else{
+                notifToast("Admin Page", "PAGE NOT FOUND","error");
+            }
+        });
+    });
+
+    if(!dataTable){
+        $("#clearFilter").click((e) => {
+            e.preventDefault();
+            $(".tabLink.active").trigger("click");
+        });
+    }
+}
+
 const newticketTab = (data = {}) => {
     let tabTitle = "NEW TICKET";
     $('.select2bs4').select2({
@@ -270,21 +326,28 @@ const ticketBoardTab = () => {
         theme: 'bootstrap4'
     });
 
-    let api_token = localStorage.getItem("api_token");
-    let categoryDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/category/0");
-    let branchDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/branch/0");
-    let departmentDataRequest = ajaxPostRequest(api_token,"api/v3/get/data/department/0");
+    ticketFilterComponent();
+    
+    const sortableReceiveStatus = (event, ui, status, element) => {
+        let ticketStatus = updateTicketStatus({
+            id: $(ui.item).find(".ticketId").val(),
+            status: status,
+            ticketNoLabel: $(ui.item).find(".ticketNoLabel").text()
+        });
+
+        ticketStatus.done((res, textStatus, xhr) => {
+            if(xhr.status != 200){
+                ui.sender.sortable("cancel");
+            }
+        });
+    }
 
     $(".todoContainer").sortable({
         connectWith: ".inprogressContainer",
         placeholder: 'sort-highlight-todo',
         forcePlaceholderSize: true,
         receive: function( event, ui ) {
-            updateTicketStatus({
-                id: $(ui.item).find(".ticketId").val(),
-                status: 1,
-                ticketNoLabel: $(ui.item).find(".ticketNoLabel").text()
-            });
+            sortableReceiveStatus(event, ui, 1, ".todoContainer");
         }
     }).disableSelection();
 
@@ -293,11 +356,7 @@ const ticketBoardTab = () => {
         placeholder: 'sort-highlight-progress',
         forcePlaceholderSize: true,
         receive: function( event, ui ) {
-            updateTicketStatus({
-                id: $(ui.item).find(".ticketId").val(),
-                status: 2,
-                ticketNoLabel: $(ui.item).find(".ticketNoLabel").text()
-            });
+            sortableReceiveStatus(event, ui, 2, ".inprogressContainer");
         }
     }).disableSelection();
 
@@ -306,63 +365,12 @@ const ticketBoardTab = () => {
         placeholder: 'sort-highlight-done',
         forcePlaceholderSize: true,
         receive: function( event, ui ) {
-            updateTicketStatus({
-                id: $(ui.item).find(".ticketId").val(),
-                status: 3,
-                ticketNoLabel: $(ui.item).find(".ticketNoLabel").text()
-            });
+            sortableReceiveStatus(event, ui, 3, ".doneContainer");
         }
     }).disableSelection();
 
     generateTicketComponent();
     
-    categoryDataRequest.done((res, textStatus, xhr) => {
-        if(xhr.status == 200){
-            select2GenerateData(res,"#categoryFilter");
-        }else{
-            notifToast("Ticket Board Tab", "DATA ERROR","error");
-        }
-    });
-
-    branchDataRequest.done((res, textStatus, xhr) => {
-        if(xhr.status == 200){
-            select2GenerateData(res,"#branchFilter");
-        }else{
-            notifToast("Ticket Board Tab", "DATA ERROR","error");
-        }
-    });
-
-    departmentDataRequest.done((res, textStatus, xhr) => {
-        if(xhr.status == 200){
-            select2GenerateData(res,"#departmentFilter");
-        }else{
-            notifToast("Ticket Board Tab", "DATA ERROR","error");
-        }
-    });
-
-    $("#categoryFilter").change((e) => {
-        let data = {
-            category: $(e.currentTarget).val()
-        };
-        changeCategory("#subjectFilter",data);
-    });
-
-    $("#newTicketBtn").click((e) => {
-        let url = $(e.currentTarget).data("url");
-        $(".content").load(url, ( res, status, xhr) => {
-            if(status == "success"){
-                newticketTab();
-            }else{
-                notifToast("Admin Page", "PAGE NOT FOUND","error");
-            }
-        });
-    });
-
-    $("#clearFilter").click((e) => {
-        e.preventDefault();
-        $(".tabLink.active").trigger("click");
-    });
-
     $("#branchFilter,#departmentFilter,#categoryFilter,#subjectFilter,#levelFilter,#datefromFilter,#datetoFilter").change((e) => {
         e.preventDefault();
         let data = {
@@ -381,6 +389,102 @@ const ticketBoardTab = () => {
     });
 }
 
+const ticketListTab = () => {
+    //Initialize Select2 Elements
+    $('.select2').select2();
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+        theme: 'bootstrap4'
+    });
+
+    ticketFilterComponent(true);
+    $("#clearFilter").parent().parent().find("label").remove();
+
+    let api_token = localStorage.getItem("api_token");
+    let ticketListTable = $('#ticketListTable').DataTable({
+        processing: true,
+        language: {          
+            processing: "<p class='text-danger font-weight-bold'>Processing, Please wait...</p>",
+        },
+        ordering: false,
+        serverSide: true,
+        dom: 'rtip',
+        columnDefs: [
+            {targets: 0, width: '1%', className:"text-center font-weight-bold"},
+            {targets: 1, width: '10%', className:"text-center font-weight-bold"},
+            {targets: 2, width: '15%', className:"text-left font-weight-bold"},
+            {targets: 3, width: '15%', className:"text-left font-weight-bold"},
+            {targets: 4, width: '15%', className:"text-left font-weight-bold"},
+            {targets: 5, width: '15%', className:"text-center font-weight-bold"},
+            {targets: 6, width: '20%', className:"text-left font-weight-bold"},
+            {targets: 7, width: '2%', className:"text-center font-weight-bold"},
+        ],
+        ajax: {
+            url: 'api/v3/ticket/datatable',
+            beforeSend: function(){
+                $(".loadingoverlay").addClass("d-none");
+            },
+            type: 'POST',
+            headers: {"Authorization": "Bearer " + api_token},
+            data: function(d){
+                d.searchTicket = $("#searchTicket").val();
+                d.branch = $("#branchFilter").val();
+                d.department = $("#departmentFilter").val();
+                d.category = $("#categoryFilter").val();
+                d.subject = $("#subjectFilter").val();
+                d.level = $("#levelFilter").val();
+                d.dateFrom = $("#datefromFilter").val();
+                d.dateTo = $("#datetoFilter").val();
+                d.status = $("#statusFilter").val();
+            },
+            error: function(xhr, error, thrown){
+                errorDataTable("Ticket List");
+            }
+        }
+    });
+
+    $("#searchTicketBtn").click((e) => {
+        ticketListTable.draw();
+    });
+
+    $("#searchTicket").keyup((e) => {
+        ticketListTable.draw();
+    });
+
+    $("#branchFilter,#departmentFilter,#categoryFilter,#subjectFilter,#levelFilter,#datefromFilter,#datetoFilter,#statusFilter").change((e) => {
+        e.preventDefault();
+        ticketListTable.draw();
+    });
+
+    $("#clearFilter").click((e) => {
+        $("#searchTicket").val("");
+        $("#branchFilter,#departmentFilter,#categoryFilter,#subjectFilter,#levelFilter,#datefromFilter,#datetoFilter,#statusFilter").val("").trigger("change");
+        ticketListTable.draw();
+    });
+
+    ticketListTable.on('click', '.viewTicket', (e) => {
+        e.preventDefault();
+        let ticketId = $(e.currentTarget).parent().data("ticketid");
+        let getTicket = ajaxPostRequest(api_token, `api/v3/ticket/get/${ticketId}`);
+        getTicket.done((res, textStatus, xhr) => {
+            if(xhr.status == 200){  
+                res.forEach(data => {
+                    $(".content").load($(e.currentTarget).attr("href"), ( res, status, xhr) => {
+                        if(status == "success"){
+                            viewTicketTab(data);
+                        }else{
+                            notifToast("Admin Page", "PAGE NOT FOUND","error");
+                        }
+                    });
+                });
+            }else{
+                notifToast("Ticket List", res,"warning");
+            }
+        });
+    });
+}
+
 $(document).ready((e) => {
     ticketBoardTab();
 });
@@ -394,6 +498,10 @@ $(".tabLink").click((e) => {
             switch(tab){
                 case "Ticket Board":
                     ticketBoardTab();
+                break;
+
+                case "Ticket List":
+                    ticketListTab();
                 break;
             }
         }else{

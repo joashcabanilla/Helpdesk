@@ -96,11 +96,11 @@ class TicketModel extends Model
         }
 
         if(isset($param["datefrom"]) && !empty($param["datefrom"])){
-            $ticketData = $ticketData->where("created_at",">=",$param["datefrom"]);
+            $ticketData = $ticketData->whereDate("created_at",">=",$param["datefrom"]);
         }
 
         if(isset($param["dateto"]) && !empty($param["dateto"])){
-            $ticketData = $ticketData->where("created_at","<=",$param["dateto"]);
+            $ticketData = $ticketData->whereDate("created_at","<=",$param["dateto"]);
         }
 
         $ticketData = $id == 0 ? $ticketData->orderBy("Category")->orderBy("TicketNo")->get() : $ticketData->where("Id",$id)->get();
@@ -204,7 +204,133 @@ class TicketModel extends Model
     }
 
     function UpdateTicketStatus($data){
-        $this->ticketHistoryModel->CreateHistory($data->id, $data->status, Auth::user()->Id);
-       return $this->find($data->id)->update(["Status" => $data->status]);
+        $ticket = $this->find($data->id);
+
+        if(Auth::user()->UserType == 1 || $ticket->Assignee == Auth::user()->Id){
+            $this->ticketHistoryModel->CreateHistory($data->id, $data->status, Auth::user()->Id);
+            return $ticket->update(["Status" => $data->status]);
+        }
+        
+        return false;
+    }
+
+    function ticketDataTable($param){
+        $result = array();
+        $category = $this->ticketCategoryModel->getAllCategory();
+        $subject = $this->subjectModel->getAllSubject();
+        $branch = $this->branchModel->getAllBranch();
+        $department = $this->departmentModel->getAllDepartment();
+        $user = $this->userModel->getAllUser();
+        $status = $this->helper->ticketStatus();
+
+        $result["query"] = $this->select("ticket.Id","ticket.TicketNo","ticket.Category","ticket.Subject","ticket.Description","ticket.PriorityLevel","ticket.Status","ticket.Assignee","ticket.Reporter","ticket.Branch","ticket.Department","users.FirstName","users.LastName")->join("users","users.Id","ticket.Reporter");
+
+        if(isset($param->searchTicket) && !empty($param->searchTicket)){
+            $ticketNo = explode("-",$param->searchTicket);
+            if(count($ticketNo) == 2){
+                $categoryId = 0;
+                foreach($category as $catId => $cat){
+                   if($cat["code"] == strtoupper($ticketNo[0])){
+                        $categoryId = $catId;
+                   }
+                }
+
+                if($categoryId != 0){
+                    $ticketNum = (int) $ticketNo[1]; 
+                    $result["query"] = $result["query"]->where("ticket.Category",$categoryId)->where("ticket.TicketNo",$ticketNum);            
+                }
+            }else{   
+                $result["query"] = $result["query"]->whereRaw("users.FirstName LIKE '%" . $param->searchTicket . "%'");
+
+                $result["query"] = $result["query"]->orWhereRaw("users.LastName LIKE '%" . $param->searchTicket . "%'");
+            }
+        }
+
+        if(isset($param->branch) && !empty($param->branch)){
+            $result["query"] = $result["query"]->whereIn("ticket.Branch", $param->branch);
+        }
+
+        if(isset($param->department) && !empty($param->department)){
+            $result["query"] = $result["query"]->whereIn("ticket.Department", $param->department);
+        }
+
+        if(isset($param->category) && !empty($param->category)){
+            $result["query"] = $result["query"]->whereIn("ticket.Category", $param->category);
+        }
+
+        if(isset($param->subject) && !empty($param->subject)){
+            $result["query"] = $result["query"]->whereIn("ticket.Subject", $param->subject);
+        }
+
+        if(isset($param->level) && !empty($param->level)){
+            $result["query"] = $result["query"]->whereIn("ticket.PriorityLevel", $param->level);
+        }
+
+        if(isset($param->dateFrom) && !empty($param->dateFrom)){
+            $result["query"] = $result["query"]->whereDate("ticket.created_at",">=",$param->dateFrom);
+        }
+
+        if(isset($param->dateTo) && !empty($param->dateTo)){
+            $result["query"] = $result["query"]->whereDate("ticket.created_at","<=",$param->dateTo);
+        }
+
+        if(isset($param->status) && !empty($param->status)){
+            $result["query"] = $result["query"]->whereIn("ticket.Status",$param->status);
+        }
+        
+        $result["columns"] = array(
+            array( 'db' => 'Id', 'dt' => 0,'orderable' => false, 'sortnum'=>true),
+            array( 'db' => 'TicketNo', 'dt' => 1,'formatter' => function($d, $row) use($category){
+                $ticketNo = $d <= 999 ? sprintf('%03d', $d) : $d;
+                return $category[$row["Category"]]["code"]."-". $ticketNo;
+            }),
+            array( 'db' => 'Branch', 'dt' => 2,'formatter' => function($d) use($branch){
+                return $branch[$d]["name"];
+            }),
+            array( 'db' => 'Department', 'dt' => 3,'formatter' => function($d) use($department){
+                return $department[$d]["name"];
+            }),
+            array( 'db' => 'Category', 'dt' => 4,'formatter' => function($d) use($category){
+                return $category[$d]["name"];
+            }),
+            array( 'db' => 'Status', 'dt' => 5,'formatter' => function($d) use($status){
+                switch($d){
+                    case 1:
+                        $statusColor = "text-secondary border border-secondary";
+                    break;
+            
+                    case 2:
+                        $statusColor = "text-info border border-info";
+                    break;
+            
+                    case 4:
+                        $statusColor = "text-dark border border-dark";
+                    break;
+            
+                    default:
+                        $statusColor = "text-primary border border-primary";
+                    break;
+                }
+                
+                return "<p class='rounded-lg text-center font-weight-bold p-1 m-0 disabled ".$statusColor."'>".$status[$d]."</p>";
+            }),
+            array( 'db' => 'Reporter', 'dt' => 6,'formatter' => function($d) use($user){
+                return $user[$d]["firstname"] . " " . $user[$d]["lastname"];
+            }),
+            array( 'db' => 'Id', 'dt' => 7,'formatter' => function($d){
+                return "<div class='btn-group'>
+                <button type='button' class='btn btn-sm btn-light' data-toggle='dropdown'><i class='fas fa-ellipsis-h'></i>
+                </button>
+                <div class='dropdown-menu dropdown-menu dropdown-menu-right ticketMenuBtn' data-ticketid='".$d."'>
+                  <a class='dropdown-item viewTicket' href=".route("admin.viewticket")."><i class='fas fa-eye'></i> View</a>
+                  <a class='dropdown-item editTicket'><i class='fas fa-edit'></i> Edit</a>
+                  <a class='dropdown-item assigneeTicket'><i class='fas fa-user'></i> Assign Ticket</a>
+                  <a class='dropdown-item assigneeTicket'><i class='fas fa-history'></i> Ticket History</a>
+                  <a class='dropdown-item deleteTicket'><i class='fas fa-trash'></i> Delete</a>
+                </div>
+              </div>";
+            }),
+        );
+        return $result;
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 //Classes
 use App\Classes\HelperClass;
+use App\Classes\DataTableClass;
 
 //Models
 use App\Models\CategoryModel;
@@ -18,7 +19,7 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
-    protected $ticketCategoryModel, $branchModel, $departmentModel, $subjectModel, $ticketModel, $helper, $userModel, $commentModel;
+    protected $ticketCategoryModel, $branchModel, $departmentModel, $subjectModel, $ticketModel, $helper, $userModel, $commentModel, $dataTableClass;
 
     public function __construct()
     {
@@ -30,6 +31,7 @@ class AdminController extends Controller
         $this->helper = new HelperClass();
         $this->commentModel = new CommentModel(); 
         $this->userModel = new User();
+        $this->dataTableClass = new DataTableClass();
     }
 
     function GetCategoryData(Request $request, $id){
@@ -120,6 +122,19 @@ class AdminController extends Controller
         if($result){
             return response("Ticket ".$request->ticketNoLabel." status updated.",200);
         }
-        return response("Update ticket ".$request->ticketNoLabel." status failed.",202);
+
+        return response("Failed to update the status of ticket ".$request->ticketNoLabel.". You are not authorized to update ticket statuses.",202);
+    }
+
+    function TicketTable(Request $request){
+        $var = (object) $request->all();
+        $sql = $this->ticketModel->ticketDataTable($var);
+        
+        $params = array(
+            "var" => $var,
+            "columns" => $sql["columns"],
+            "sql" => $sql["query"] 
+        );
+        return $this->dataTableClass->processTable($params);
     }
 }

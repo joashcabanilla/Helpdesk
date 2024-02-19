@@ -57,12 +57,26 @@
                 <input class="form-control" type="date" id="datetoFilter" name="datetoFilter" /> 
             </div>
         </div>
-
-        <div class="col-lg-3 col-md-6 col-sm-12">
+        
+        @if(isset($ticketStatus) && $ticketStatus)
+            <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="form-group">
+                    <label for="statusFilter">Ticket Status</label>
+                    <select class="form-control select2bs4" multiple="multiple" data-placeholder="Select Status" id="statusFilter" name="statusFilter" style="width: 100%;">  
+                        <option value="1">To Do</option>
+                        <option value="2">In Progress</option>
+                        <option value="3">Done</option>
+                        <option value="4">Backlog</option>
+                        <option value="5">Closed Ticket</option>
+                    </select>
+                </div>
+            </div>
+        @endif
+        <div class="col-lg-3 col-md-5 col-sm-12">
             <label for="datetoFilter"> &nbsp;</label>
-            <div class="form-group">
-                <button class="btn btn-secondary font-weight-bold mr-2" id="clearFilter"><i class="fas fa-filter"></i> Clear Filter</button>
-                <button class="btn btn-primary font-weight-bold" id="newTicketBtn" data-url="{{route("admin.newticket")}}"><i class="fas fa-plus"></i> New Ticket</button>
+            <div class="form-group mb-0 mt-0">
+                <button class="btn btn-sm btn-secondary font-weight-bold mr-2" id="clearFilter"><i class="fas fa-filter"></i> Clear Filter</button>
+                <button class="btn btn-sm btn-primary font-weight-bold" id="newTicketBtn" data-url="{{route("admin.newticket")}}"><i class="fas fa-plus"></i> New Ticket</button>
             </div> 
         </div>
     </div>
